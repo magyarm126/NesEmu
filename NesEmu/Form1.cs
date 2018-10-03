@@ -45,5 +45,18 @@ namespace NesEmu
                 MessageBox.Show(errormsg.Message, "Error occured while loadin the ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                NesEmu.Core.Cartridge cartridge = new Core.Cartridge("C:\\Users\\MatePC\\source\\repos\\SMB3.nes");
+                MessageBox.Show("Succes!", "ROM loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (System.FormatException errormsg)
+            {
+                MessageBox.Show(errormsg.Message, "Error occured while loadin the ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

@@ -25,24 +25,24 @@ namespace NesEmu.Core
         /// <summary>
         /// Raw Rom Data
         /// </summary>
-        public readonly byte[] _raw_ROM;
+        private readonly byte[] _raw_ROM;
 
         /// <summary>
         /// Program Rom Size
         /// </summary>
-        public readonly int _PRGROMSize;
+        private readonly int _PRGROMSize;
         /// <summary>
         /// Character Rom Size
         /// </summary>
-        public readonly int _CHRROMSize;
+        private readonly int _CHRROMSize;
         /// <summary>
         /// Program Ram Size
         /// </summary>
-        public readonly int _PRGRAMSize;
+        private readonly int _PRGRAMSize;
         /// <summary>
         /// Program Rom Offset
         /// </summary>
-        public readonly int _PRGROMOffset;
+        private readonly int _PRGROMOffset;
 
         /// <summary>
         /// Program Rom
@@ -56,12 +56,16 @@ namespace NesEmu.Core
         /// <summary>
         /// Mirroring mode of the ROM
         /// </summary>
-        public MirroringMode _mirroringMode;
+        private readonly MirroringMode _mirroringMode;
+        /// <summary>
+        /// Getter for mirroringMode
+        /// </summary>
+        public MirroringMode GetMirroringMode { get => _mirroringMode; }
 
         /// <summary>
         /// Mapping Number of the ROM
         /// </summary>
-        public readonly int _MapperNumber;
+        private readonly int _MapperNumber;
 
         #endregion
 
