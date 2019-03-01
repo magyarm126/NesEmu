@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NesEmu.Core;
 
-namespace NesEmuTest
+namespace NesEmuTestNamespace
 {
     [TestClass]
     public class CartridgeTest
