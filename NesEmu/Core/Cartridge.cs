@@ -11,7 +11,7 @@ namespace NesEmu.Core
     public class Cartridge
     {
         #region Enum
-
+         
         /// <summary>
         /// Mirroring Mode
         /// </summary>

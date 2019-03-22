@@ -2,13 +2,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NesEmu.Core;
 
-namespace NesEmuTestNamespace
+namespace Cartridge_test
 {
     [TestClass]
     public class CartridgeTest
     {
         Cartridge _cartridge;
-
+         
         [TestMethod]
         //[ExpectedException(typeof(System.FormatException))]
         public void Load_FileNotFound()
