@@ -29,6 +29,8 @@ namespace NesEmu.Core
         /// </summary>
         private readonly byte[] _raw_ROM;
 
+        public int PrgRomBanks { get; private set; }
+
         /// <summary>
         /// Program Rom Size
         /// </summary>
@@ -67,7 +69,7 @@ namespace NesEmu.Core
         /// <summary>
         /// Mapping Number of the ROM
         /// </summary>
-        private readonly int _MapperNumber;
+        public readonly int _MapperNumber;
 
         #endregion
 
@@ -94,6 +96,7 @@ namespace NesEmu.Core
                 throw new FormatException("Unexpected header value: " + rom_header.ToString("X") + "\nExpected : 4D 41 54 10");
             }
 
+            PrgRomBanks = _raw_ROM[4];
             _PRGROMSize = _raw_ROM[4] * 0x4000; // 16kb units
             _CHRROMSize = _raw_ROM[5] * 0x2000; // 8kb units
             _PRGRAMSize = _raw_ROM[8] * 0x2000; // 8kb units

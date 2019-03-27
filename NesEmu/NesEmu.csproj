@@ -62,15 +62,21 @@
   <ItemGroup>
     <Compile Include="Core\Cartridge.cs" />
     <Compile Include="Core\CPU.cs" />
+    <Compile Include="Core\CPU.Instructions.cs">
+      <DependentUpon>CPU.cs</DependentUpon>
+    </Compile>
     <Compile Include="Core\CPU.Registers.cs">
       <DependentUpon>CPU.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\Emulator.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mappers\Mapper.cs" />
+    <Compile Include="Mappers\NROM.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

@@ -15,8 +15,7 @@ namespace NesEmu
         [STAThread]
         static void Main()
         {
-            CPU myCPU = new CPU();
-
+            Emulator emu = new Emulator();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
