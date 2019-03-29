@@ -26,7 +26,7 @@ namespace NesEmu.Mappers
         }
 
         public override int MappedAdress(int address)
-        {
+        {  
             int mappedaddress = address - 0x8000;
             if (_cartridge.PrgRomBanks == 1)
             {

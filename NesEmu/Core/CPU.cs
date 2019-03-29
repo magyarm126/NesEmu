@@ -32,13 +32,20 @@ namespace NesEmu.Core
 
         #region Constructors
 
+        public CPU()//Test
+        {
+            SetInstructions();
+        }
+
         public CPU(Emulator emu)
         {
+            SetInstructions();
             _emu = emu;
         }
 
         public CPU(byte A, byte X, byte Y, ushort PC, byte S, StatusFlag SF, StatusFlag sF, byte p, byte s, ushort pC, byte x, byte y, byte a, byte[] ram, int cycle)
         {
+            SetInstructions();
             _A = A;
             _X = X;
             _Y = Y;
