@@ -65,6 +65,9 @@
     <Compile Include="Core\CPU.Instructions.cs">
       <DependentUpon>CPU.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\CPU.Memory.cs">
+      <DependentUpon>CPU.cs</DependentUpon>
+    </Compile>
     <Compile Include="Core\CPU.Registers.cs">
       <DependentUpon>CPU.cs</DependentUpon>
     </Compile>

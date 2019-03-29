@@ -8,13 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using NesEmu.Core;
+
 namespace NesEmu
 {
     public partial class Form1 : Form
     {
+        public Emulator _emulator;
         public Form1()
         {
             InitializeComponent();
+
+            _emulator = new Emulator();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -57,6 +62,13 @@ namespace NesEmu
             {
                 MessageBox.Show(errormsg.Message, "Error occured while loadin the ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            _emulator._cpu.ExecuteOpCode(0);
+            _emulator._cpu.ExecuteOpCode(1);
+            _emulator._cpu.ExecuteOpCode(2);
         }
     }
 }
