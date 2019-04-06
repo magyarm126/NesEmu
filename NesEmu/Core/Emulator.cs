@@ -21,8 +21,6 @@ namespace NesEmu.Core
 
         public Emulator()
         {
-            _cpu = new CPU(this);
-
             try
             {
                 _cartridge = new Core.Cartridge("C:\\Users\\MatePC\\source\\repos\\donkey kong.nes");
@@ -41,6 +39,8 @@ namespace NesEmu.Core
                 default:
                     throw new NotImplementedException();
             }
+
+            _cpu = new CPU(this);//cpu needs mapper
 
         }
     }
