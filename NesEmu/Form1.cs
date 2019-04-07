@@ -52,6 +52,24 @@ namespace NesEmu
         private void Donkey_Click(object sender, EventArgs e)
         {
             _emulator = new Emulator();
+            button5_Click(sender,e);
+        }
+
+        private void listBox1_Format(object sender, ListControlConvertEventArgs e)
+        {
+            int i = 0;
+            if (int.TryParse(e.Value.ToString(), out i))
+                e.Value = string.Format("asdsad 0x{0}", i.ToString("X2"));
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            //listBox1.FormatString = "X2";
+            if(_emulator != null)
+            {
+                this.listBox1.DataSource = _emulator._cartridge._PRGROM;
+                //this.listBox1.DataSource = _emulator._cartridge._PRGROM.ToList();
+            }
         }
     }
 }
