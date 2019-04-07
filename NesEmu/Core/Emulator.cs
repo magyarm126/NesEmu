@@ -17,31 +17,29 @@ namespace NesEmu.Core
 
         public Mapper _mapper;
 
-
-
-        public Emulator()
+        public Emulator(string File_path = "C:\\Users\\MatePC\\source\\repos\\donkey kong.nes")
         {
             try
             {
-                _cartridge = new Core.Cartridge("C:\\Users\\MatePC\\source\\repos\\donkey kong.nes");
+                _cartridge = new Core.Cartridge(File_path);
                 MessageBox.Show("Succes!", "ROM loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                switch (_cartridge._MapperNumber)
+                {
+                    case 0:
+                        _mapper = new NROM(this);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                _cpu = new CPU(this);//cpu needs mapper
             }
             catch (System.FormatException errormsg)
             {
                 MessageBox.Show(errormsg.Message, "Error occured while loadin the ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            switch (_cartridge._MapperNumber)
-            {
-                case 0:
-                    _mapper = new NROM(this);
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
-            _cpu = new CPU(this);//cpu needs mapper
-
+ 
         }
     }
 }

@@ -19,7 +19,7 @@ namespace NesEmu
         {
             InitializeComponent();
 
-            _emulator = new Emulator();
+            //_emulator = new Emulator();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -29,39 +29,17 @@ namespace NesEmu
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                NesEmu.Core.Cartridge cartridge = new Core.Cartridge("asd");
-            }
-            catch(System.FormatException errormsg)
-            {
-                MessageBox.Show(errormsg.Message, "Error occured while loadin the ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            _emulator = new Emulator("error");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            try
-            {
-                NesEmu.Core.Cartridge cartridge = new Core.Cartridge("C:\\Users\\MatePC\\source\\repos\\SMB3Corrupt.nes");
-            }
-            catch (System.FormatException errormsg)
-            {
-                MessageBox.Show(errormsg.Message, "Error occured while loadin the ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            _emulator = new Emulator("C:\\Users\\MatePC\\source\\repos\\SMB3Corrupt.nes");
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            try
-            {
-                NesEmu.Core.Cartridge cartridge = new Core.Cartridge("C:\\Users\\MatePC\\source\\repos\\SMB3.nes");
-                MessageBox.Show("Succes!", "ROM loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (System.FormatException errormsg)
-            {
-                MessageBox.Show(errormsg.Message, "Error occured while loadin the ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            _emulator = new Emulator("C:\\Users\\MatePC\\source\\repos\\SMB3.nes");
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -69,6 +47,11 @@ namespace NesEmu
             _emulator._cpu.ExecuteOpCode(0);
             _emulator._cpu.ExecuteOpCode(1);
             _emulator._cpu.ExecuteOpCode(2);
+        }
+
+        private void Donkey_Click(object sender, EventArgs e)
+        {
+            _emulator = new Emulator();
         }
     }
 }

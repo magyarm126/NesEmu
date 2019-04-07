@@ -17,8 +17,9 @@ namespace NesEmu.Core
 
         public CPU()//Test
         {
+            //FOR TESTING ONLY
             SetInstructions();
-            Reset();
+            //Reset();
         }
 
         public CPU(Emulator emu)
