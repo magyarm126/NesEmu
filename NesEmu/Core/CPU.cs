@@ -9,7 +9,6 @@ namespace NesEmu.Core
 
     public class Mindendes { };
 
-    public delegate void RefreshUI();
 
     sealed partial class CPU : Mindendes
     {
@@ -38,8 +37,12 @@ namespace NesEmu.Core
             //Reset();
         }
 
-        public CPU(Emulator emu)
+        public CPU(Emulator emu, EventHandler eh=null)
         {
+            if(eh!=null)
+            {
+                UIChanged += eh;
+            }
             SetInstructions();
             _emu = emu;
             Reset();
@@ -65,6 +68,8 @@ namespace NesEmu.Core
             PC = Read16(0xFFFC);
 
             _cycle = 0;
+
+            OnUIChanged();
         }
     }
 }

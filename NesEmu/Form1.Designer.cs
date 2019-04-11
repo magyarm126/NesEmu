@@ -91,7 +91,7 @@ namespace NesEmu
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(109, 23);
             this.button4.TabIndex = 3;
-            this.button4.Text = "Opcode_test";
+            this.button4.Text = "Step";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -169,7 +169,7 @@ namespace NesEmu
             this.groupBox3.Controls.Add(this.listView2);
             this.groupBox3.Location = new System.Drawing.Point(559, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(575, 189);
+            this.groupBox3.Size = new System.Drawing.Size(575, 568);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Registers";
@@ -186,7 +186,7 @@ namespace NesEmu
             this.listView2.GridLines = true;
             this.listView2.Location = new System.Drawing.Point(0, 28);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(563, 155);
+            this.listView2.Size = new System.Drawing.Size(563, 540);
             this.listView2.TabIndex = 0;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;

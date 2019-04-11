@@ -44,11 +44,11 @@ namespace NesEmu
 
         private void Donkey_Click(object sender, EventArgs e)
         {
-            _emulator = new Emulator();
-            _emulator._cpu.UIChanged += _cpu_UIChanged;
+            _emulator = new Emulator(eh:_cpu_UIChanged);
+           // _emulator._cpu.UIChanged += _cpu_UIChanged;
             if (_emulator != null && _emulator._cpu != null)
             {
-                _cpu_UIChanged(_emulator._cpu, EventArgs.Empty); // show init
+           //     _cpu_UIChanged(_emulator._cpu, EventArgs.Empty); // show init
             }
             LoadPRG();
         }
@@ -59,7 +59,7 @@ namespace NesEmu
             {
                 Core.CPU tmp = (Core.CPU)sender;
                 listView2.BeginUpdate();
-                listView2.Items.Add(new ListViewItem(
+                listView2.Items.Insert(0, new ListViewItem(
                     new string[] {
                         tmp.X.ToString("X2"),
                         tmp.Y.ToString("X2"),

@@ -17,7 +17,7 @@ namespace NesEmu.Core
 
         public Mapper _mapper;
 
-        public Emulator(string File_path = "C:\\Users\\MatePC\\source\\repos\\donkey kong.nes")
+        public Emulator(string File_path = "C:\\Users\\MatePC\\source\\repos\\donkey kong.nes", EventHandler eh = null)
         {
             try
             {
@@ -33,7 +33,16 @@ namespace NesEmu.Core
                         throw new NotImplementedException();
                 }
 
-                _cpu = new CPU(this);//cpu needs mapper
+                
+                if (eh != null)
+                {
+                    _cpu = new CPU(this,eh:eh);//cpu needs mapper
+                }
+                else
+                {
+                    _cpu = new CPU(this);//cpu needs mapper
+                }
+                    
             }
             catch (System.FormatException errormsg)
             {
