@@ -18,13 +18,6 @@ namespace NesEmu
         public Form1()
         {
             InitializeComponent();
-
-            //_emulator = new Emulator();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -44,6 +37,9 @@ namespace NesEmu
 
         private void button4_Click(object sender, EventArgs e)
         {
+            _emulator._cpu.Step();
+            _emulator._cpu.Step();
+            _emulator._cpu.Step();
             _emulator._cpu.ExecuteOpCode(0);
             _emulator._cpu.ExecuteOpCode(1);
             _emulator._cpu.ExecuteOpCode(2);
@@ -52,17 +48,39 @@ namespace NesEmu
         private void Donkey_Click(object sender, EventArgs e)
         {
             _emulator = new Emulator();
-            button5_Click(sender,e);
+            _emulator._cpu.UIChanged += _cpu_UIChanged;
+            LoadPRG();
         }
 
-        /*private void listBox1_Format(object sender, ListControlConvertEventArgs e)
+        private void _cpu_UIChanged(object sender, EventArgs e)
         {
-            int i = 0;
-            if (int.TryParse(e.Value.ToString(), out i))
-                e.Value = string.Format("0x{0}", i.ToString("X2"));
-        }*/
+            if(sender is Core.CPU)
+            {
+                Core.CPU tmp = (Core.CPU)sender;
+                listView2.BeginUpdate();
+                listView2.Items.Add(new ListViewItem(
+                    new string[] {
+                        tmp.X.ToString("X2"),
+                        tmp.Y.ToString("X2"),
+                        tmp.A.ToString("X2"),
+                        tmp.S.ToString("X2"),
+                        tmp.PC.ToString("X2"),
+                        Convert.ToString( tmp.P, 2),
+                    }));
+                listView2.EndUpdate();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         private void button5_Click(object sender, EventArgs e)
+        {
+            LoadPRG();
+        }
+
+        private void LoadPRG()
         {
             if(_emulator != null)
             {
@@ -83,23 +101,7 @@ namespace NesEmu
                 }
                 listView1.EndUpdate();
                 listView1.GridLines = true;
-
             }
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBox1_Format(object sender, ListControlConvertEventArgs e)
-        {
-
         }
     }
 }

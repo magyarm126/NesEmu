@@ -1,4 +1,6 @@
-﻿namespace NesEmu
+﻿using System;
+
+namespace NesEmu
 {
     partial class Form1
     {
@@ -40,8 +42,17 @@
             this.address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.opcode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.X = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Y = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.A = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.S = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.pc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.P = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -136,11 +147,10 @@
             this.opcode});
             this.listView1.Location = new System.Drawing.Point(336, 12);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(217, 342);
+            this.listView1.Size = new System.Drawing.Size(217, 568);
             this.listView1.TabIndex = 9;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // address
             // 
@@ -154,19 +164,80 @@
             // 
             this.opcode.Text = "opCode";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.listView2);
+            this.groupBox3.Location = new System.Drawing.Point(559, 12);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(575, 189);
+            this.groupBox3.TabIndex = 10;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Registers";
+            // 
+            // listView2
+            // 
+            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.X,
+            this.Y,
+            this.A,
+            this.S,
+            this.pc,
+            this.P});
+            this.listView2.GridLines = true;
+            this.listView2.Location = new System.Drawing.Point(0, 28);
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(563, 155);
+            this.listView2.TabIndex = 0;
+            this.listView2.UseCompatibleStateImageBehavior = false;
+            this.listView2.View = System.Windows.Forms.View.Details;
+            // 
+            // X
+            // 
+            this.X.Text = "X";
+            this.X.Width = 53;
+            // 
+            // Y
+            // 
+            this.Y.Text = "Y";
+            this.Y.Width = 55;
+            // 
+            // A
+            // 
+            this.A.Text = "A";
+            this.A.Width = 68;
+            // 
+            // S
+            // 
+            this.S.DisplayIndex = 4;
+            this.S.Text = "Stack pointer";
+            this.S.Width = 104;
+            // 
+            // pc
+            // 
+            this.pc.DisplayIndex = 5;
+            this.pc.Text = "Program Counter";
+            this.pc.Width = 115;
+            // 
+            // P
+            // 
+            this.P.DisplayIndex = 3;
+            this.P.Text = "Status Flag";
+            this.P.Width = 134;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(823, 514);
+            this.ClientSize = new System.Drawing.Size(1146, 605);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.Text = "NesEmu";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -185,6 +256,14 @@
         private System.Windows.Forms.ColumnHeader address;
         private System.Windows.Forms.ColumnHeader value;
         private System.Windows.Forms.ColumnHeader opcode;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.ColumnHeader X;
+        private System.Windows.Forms.ColumnHeader Y;
+        private System.Windows.Forms.ColumnHeader A;
+        private System.Windows.Forms.ColumnHeader P;
+        private System.Windows.Forms.ColumnHeader S;
+        private System.Windows.Forms.ColumnHeader pc;
     }
 }
 

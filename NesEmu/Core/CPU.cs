@@ -9,9 +9,24 @@ namespace NesEmu.Core
 
     public class Mindendes { };
 
+    public delegate void RefreshUI();
+
     sealed partial class CPU : Mindendes
     {
         private Emulator _emu;
+
+        #region Events
+
+
+
+        public event EventHandler UIChanged;
+
+        private void OnUIChanged()
+        {
+            UIChanged(this, EventArgs.Empty);
+        }
+
+        #endregion
 
         #region Constructors
 
@@ -30,6 +45,14 @@ namespace NesEmu.Core
         }
 
         #endregion
+
+        public void Step()
+        {
+            var currentOpCode = ReadByte(PC);
+            ExecuteOpCode(currentOpCode);
+
+            OnUIChanged();
+        }
 
         public void Reset()
         {
