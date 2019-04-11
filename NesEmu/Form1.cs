@@ -55,21 +55,51 @@ namespace NesEmu
             button5_Click(sender,e);
         }
 
-        private void listBox1_Format(object sender, ListControlConvertEventArgs e)
+        /*private void listBox1_Format(object sender, ListControlConvertEventArgs e)
         {
             int i = 0;
             if (int.TryParse(e.Value.ToString(), out i))
-                e.Value = string.Format("asdsad 0x{0}", i.ToString("X2"));
-        }
+                e.Value = string.Format("0x{0}", i.ToString("X2"));
+        }*/
 
         private void button5_Click(object sender, EventArgs e)
         {
-            //listBox1.FormatString = "X2";
             if(_emulator != null)
             {
-                this.listBox1.DataSource = _emulator._cartridge._PRGROM;
-                //this.listBox1.DataSource = _emulator._cartridge._PRGROM.ToList();
+
+                var prCode = _emulator._cartridge._PRGROM;
+                var prLength = prCode.Length;
+                listView1.BeginUpdate();
+
+                string[] tmp = new string[prLength];
+                for( int i= 0; i < prLength; i++)
+                {
+                    var hexvalue = "0x" + prCode[i].ToString("X2");
+                    var hexaddress = "  $" + i.ToString("X2");
+                    var opName = _emulator._cpu.GetOpCodeName(prCode[i]).ToString();
+                    tmp[i] = hexvalue + hexaddress;
+                    
+                    listView1.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue, opName }));
+                }
+                listView1.EndUpdate();
+                listView1.GridLines = true;
+
             }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_Format(object sender, ListControlConvertEventArgs e)
+        {
+
         }
     }
 }
