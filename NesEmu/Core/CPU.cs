@@ -23,7 +23,8 @@ namespace NesEmu.Core
 
         private void OnUIChanged()
         {
-            UIChanged(this, EventArgs.Empty);
+            if(UIChanged !=null)
+                UIChanged(this, EventArgs.Empty);
         }
 
         #endregion

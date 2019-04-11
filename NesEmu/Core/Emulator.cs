@@ -22,7 +22,7 @@ namespace NesEmu.Core
             try
             {
                 _cartridge = new Core.Cartridge(File_path);
-                MessageBox.Show("Succes!", "ROM loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show("Succes!", "ROM loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 switch (_cartridge._MapperNumber)
                 {

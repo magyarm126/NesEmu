@@ -37,18 +37,19 @@ namespace NesEmu
 
         private void button4_Click(object sender, EventArgs e)
         {
+            if (_emulator== null || _emulator._cpu==null)
+                return;
             _emulator._cpu.Step();
-            _emulator._cpu.Step();
-            _emulator._cpu.Step();
-            _emulator._cpu.ExecuteOpCode(0);
-            _emulator._cpu.ExecuteOpCode(1);
-            _emulator._cpu.ExecuteOpCode(2);
         }
 
         private void Donkey_Click(object sender, EventArgs e)
         {
             _emulator = new Emulator();
             _emulator._cpu.UIChanged += _cpu_UIChanged;
+            if (_emulator != null && _emulator._cpu != null)
+            {
+                _cpu_UIChanged(_emulator._cpu, EventArgs.Empty); // show init
+            }
             LoadPRG();
         }
 
@@ -82,7 +83,7 @@ namespace NesEmu
 
         private void LoadPRG()
         {
-            if(_emulator != null)
+            if(_emulator != null &&_emulator._cartridge!= null && _emulator._cartridge._PRGROM!= null && _emulator._cpu!=null)
             {
 
                 var prCode = _emulator._cartridge._PRGROM;
@@ -101,6 +102,10 @@ namespace NesEmu
                 }
                 listView1.EndUpdate();
                 listView1.GridLines = true;
+            }
+            else
+            {
+                throw new Exception("Not cool");
             }
         }
     }
