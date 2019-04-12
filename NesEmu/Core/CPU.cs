@@ -16,8 +16,6 @@ namespace NesEmu.Core
 
         #region Events
 
-
-
         public event EventHandler UIChanged;
 
         private void OnUIChanged()

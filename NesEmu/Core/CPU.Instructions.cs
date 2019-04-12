@@ -48,7 +48,7 @@ namespace NesEmu.Core
             return (AdressingMode)_addressModes[opcode];
         }
 
-        public delegate void Instruction(AdressingMode mode, int address);
+        public delegate void Instruction(AdressingMode mode, ushort address);
 
         public void ExecuteOpCode(byte opcode)
         {
@@ -60,6 +60,36 @@ namespace NesEmu.Core
             return _instruction_names[opcode];
         }
 
+        #region InstructionHelperFunctions
+
+        /// <summary>
+        /// Clears the Negative Flag if the Operand is $#00-7F, otherwise sets it.
+        /// </summary>
+        /// <param name="Operand"></param>
+        private void SetNegative(byte value)
+        {
+            SF.Negative = ((value >> 7) & 1) == 1;
+            //0b1xxx_xxxx true
+            //0b0xxx_xxxx false $#00-7F
+        }
+
+        /// <summary>
+        /// Sets the Zero Flag if the Operand is $#00, otherwise clears it.
+        /// </summary>
+        /// <param name="value"></param>
+        private void SetZero(byte value)
+        {
+            SF.Zero = value == 0;
+        }
+
+        private void Set_Negative_and_Zero(byte value)
+        {
+            SetNegative(value);
+            SetZero(value);
+        }
+
+        #endregion
+
         #region Instructions
 
         private void SetInstructions()
@@ -67,12 +97,12 @@ namespace NesEmu.Core
             _instructions = new Instruction[256]
             {
                 //0,   1,   2,   3,   4,   5,   6,   7,   8,   9,   A,   B,   C,   D,   E,   F
-                BRK, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___,//0
-                ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___,//1
-                ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___,//2
-                ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___,//3
-                ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___,//4
-                ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___,//5
+                BRK, ORA, ___, ___, ___, ORA, ___, ___, ___, ORA, ___, ___, ___, ORA, ___, ___,//0
+                ___, ORA, ___, ___, ___, ORA, ___, ___, ___, ORA, ___, ___, ___, ORA, ___, ___,//1
+                ___, AND, ___, ___, ___, AND, ___, ___, ___, AND, ___, ___, ___, AND, ___, ___,//2
+                ___, AND, ___, ___, ___, AND, ___, ___, ___, AND, ___, ___, ___, AND, ___, ___,//3
+                ___, EOR, ___, ___, ___, EOR, ___, ___, ___, EOR, ___, ___, ___, EOR, ___, ___,//4
+                ___, EOR, ___, ___, ___, EOR, ___, ___, ___, EOR, ___, ___, ___, EOR, ___, ___,//5
                 ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___,//6
                 ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___,//7
                 ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___,//8
@@ -87,13 +117,13 @@ namespace NesEmu.Core
 
             _instruction_names = new String[256]
 {
-                //0,   1,   2,   3,   4,   5,   6,   7,   8,   9,   A,   B,   C,   D,   E,   F
-                "BRK", "TES", "SSS", "XXX", "CCC", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___",//0
-                "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___",//1
-                "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___",//2
-                "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___",//3
-                "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___",//4
-                "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___",//5
+                //0,     1,     2,     3,     4,     5,     6,     7,     8,     9,     A,     B,     C,     D,     E,     F
+                "BRK", "ORA", "___", "___", "___", "ORA", "___", "___", "___", "ORA", "___", "___", "___", "ORA", "___", "___",//0
+                "___", "ORA", "___", "___", "___", "ORA", "___", "___", "___", "ORA", "___", "___", "___", "ORA", "___", "___",//1
+                "___", "AND", "___", "___", "___", "AND", "___", "___", "___", "AND", "___", "___", "___", "AND", "___", "___",//2
+                "___", "AND", "___", "___", "___", "AND", "___", "___", "___", "AND", "___", "___", "___", "AND", "___", "___",//3
+                "___", "EOR", "___", "___", "___", "EOR", "___", "___", "___", "EOR", "___", "___", "___", "EOR", "___", "___",//4
+                "___", "EOR", "___", "___", "___", "EOR", "___", "___", "___", "EOR", "___", "___", "___", "EOR", "___", "___",//5
                 "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___",//6
                 "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___",//7
                 "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___", "___",//8
@@ -188,15 +218,48 @@ namespace NesEmu.Core
         }
 
 
-        public void BRK(AdressingMode mode, int address)
+        public void BRK(AdressingMode mode, ushort address)
         {
-            X++;
+            throw new NotImplementedException();
         }
 
-        public void ___(AdressingMode mode, int address)
+        /// <summary>
+        /// ORA (Or Memory With Accumulator) performs a logical OR on the operand and the accumulator and stores the result in the accumulator. This opcode is similar in function to AND and EOR.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void ORA(AdressingMode mode, ushort address)
         {
-            Y++;
-            //throw new Exception("Illegal OPCODE");
+            byte Operand = ReadByte(address);
+            Operand |= A;
+            Set_Negative_and_Zero(Operand);
+            A = Operand;
+        }
+
+        /// <summary>
+        /// EOR (Exclusive OR Memory With Accumulator) performs a logical XOR on the operand and the accumulator and stores the result in the accumulator. This opcode is similar in function to AND and ORA.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void EOR(AdressingMode mode, ushort address)
+        {
+            byte Operand = ReadByte(address);
+            Operand ^= A;
+            Set_Negative_and_Zero(Operand);
+            A = Operand;
+        }
+
+        public void AND(AdressingMode mode, ushort address)
+        {
+            byte Operand = ReadByte(address);
+            Operand &= A;
+            Set_Negative_and_Zero(Operand);
+            A = Operand;
+        }
+
+        public void ___(AdressingMode mode, ushort address)
+        {
+            throw new Exception("Illegal OPCODE");
         }
 
 
