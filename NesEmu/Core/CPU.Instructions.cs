@@ -249,12 +249,73 @@ namespace NesEmu.Core
             A = Operand;
         }
 
+        /// <summary>
+        /// Accumulator) performs a logical AND on the operand and the accumulator and stores the result in the accumulator. This opcode is similar in function to ORA and EOR.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void AND(AdressingMode mode, ushort address)
         {
             byte Operand = ReadByte(address);
             Operand &= A;
             Set_Negative_and_Zero(Operand);
             A = Operand;
+        }
+
+        /// <summary>
+        /// Add with carry. Adds Operand to A register, sets Zero, Negative, Carry, Overflow flags
+        /// https://stackoverflow.com/questions/29193303/6502-emulation-proper-way-to-implement-adc-and-sbc
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void ADC(AdressingMode mode, ushort address)
+        {
+            //Decimal mode was cut from NES
+
+            byte Operand = ReadByte(address);
+            int carry = SF.Carry ? 1 : 0;
+
+            byte sum = (byte)(A + Operand + carry);
+            Set_Negative_and_Zero(sum);
+
+            SF.Carry = (A + Operand + carry) > 0xFF;
+            SF.Overflow = (~(A ^ Operand) & (A ^ sum) & 0x80) != 0;
+
+            A = sum;
+
+            //0b1xxx_xxxx       0011
+            //0b0xxx_xxxx       0101
+            //-----------  XOR  ----
+            //0b1xxx_xxxx       0110
+
+            //(A ^ Operand)     (Different)Negative and Positive
+            //~(A ^ Operand)    Same
+
+            //(A ^ sum)         Different
+
+            //0x80=0b1000_0000  Extract the important bit
+        }
+
+        /// <summary>
+        /// Substract with carry. Substracts Operand from A register, sets Zero, Negative, Carry, Overflow flags
+        /// https://stackoverflow.com/questions/29193303/6502-emulation-proper-way-to-implement-adc-and-sbc
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void SBC(AdressingMode mode, ushort address)
+        {
+            //same as ADC with with flipped value input
+
+            byte Operand = (byte)~ReadByte(address); //Complement
+            int carry = SF.Carry ? 1 : 0;
+
+            byte sum = (byte)(A + Operand + carry);
+            Set_Negative_and_Zero(sum);
+
+            SF.Carry = (A + Operand + carry) > 0xFF;
+            SF.Overflow = (~(A ^ Operand) & (A ^ sum) & 0x80) != 0;
+
+            A = sum;
         }
 
         public void ___(AdressingMode mode, ushort address)
