@@ -50,9 +50,9 @@ namespace NesEmu.Core
 
         public delegate void Instruction(AdressingMode mode, ushort address);
 
-        public void ExecuteOpCode(byte opcode)
+        public void ExecuteOpCode(byte opcode, AdressingMode mode, ushort address)
         {
-            _instructions[opcode](GetAdressingMode(opcode), 0); //todo meg nyilvan nemjo
+            _instructions[opcode](mode, address);
         }
 
         public string GetOpCodeName(byte opcode)
@@ -304,7 +304,7 @@ namespace NesEmu.Core
         /// <param name="address"></param>
         public void SBC(AdressingMode mode, ushort address)
         {
-            //same as ADC with with flipped value input
+            //same as ADC with with complement value input
 
             byte Operand = (byte)~ReadByte(address); //Complement
             int carry = SF.Carry ? 1 : 0;
