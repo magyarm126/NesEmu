@@ -194,7 +194,6 @@ namespace NesEmu.Core
         };
         }
 
-
         public void BRK(AdressingMode mode, ushort address)
         {
             throw new NotImplementedException();
@@ -297,9 +296,15 @@ namespace NesEmu.Core
 
         public void ___(AdressingMode mode, ushort address)
         {
-            throw new Exception("Illegal OPCODE");
-        }
+            try
+            {
+                throw new Exception("Illegal OPCODE");
+            }
+            catch(Exception e)
+            {
 
+            }
+        }
 
         #endregion
     }

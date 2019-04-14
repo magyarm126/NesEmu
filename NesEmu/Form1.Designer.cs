@@ -50,9 +50,16 @@ namespace NesEmu
             this.S = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.P = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.listView3 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -145,9 +152,9 @@ namespace NesEmu
             this.address,
             this.value,
             this.opcode});
-            this.listView1.Location = new System.Drawing.Point(336, 12);
+            this.listView1.Location = new System.Drawing.Point(6, 19);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(217, 568);
+            this.listView1.Size = new System.Drawing.Size(211, 549);
             this.listView1.TabIndex = 9;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -184,9 +191,9 @@ namespace NesEmu
             this.pc,
             this.P});
             this.listView2.GridLines = true;
-            this.listView2.Location = new System.Drawing.Point(0, 28);
+            this.listView2.Location = new System.Drawing.Point(0, 19);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(563, 540);
+            this.listView2.Size = new System.Drawing.Size(575, 549);
             this.listView2.TabIndex = 0;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
@@ -224,13 +231,56 @@ namespace NesEmu
             this.P.Text = "Status Flag";
             this.P.Width = 134;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.listView1);
+            this.groupBox4.Location = new System.Drawing.Point(336, 12);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(217, 568);
+            this.groupBox4.TabIndex = 11;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "PrgROM";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.listView3);
+            this.groupBox5.Location = new System.Drawing.Point(168, 192);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(162, 388);
+            this.groupBox5.TabIndex = 12;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Stack";
+            // 
+            // listView3
+            // 
+            this.listView3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
+            this.listView3.Location = new System.Drawing.Point(0, 19);
+            this.listView3.Name = "listView3";
+            this.listView3.Size = new System.Drawing.Size(162, 369);
+            this.listView3.TabIndex = 9;
+            this.listView3.UseCompatibleStateImageBehavior = false;
+            this.listView3.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Address";
+            this.columnHeader1.Width = 75;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Value";
+            this.columnHeader2.Width = 75;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1146, 605);
+            this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.listView1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
@@ -238,6 +288,8 @@ namespace NesEmu
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -264,6 +316,11 @@ namespace NesEmu
         private System.Windows.Forms.ColumnHeader P;
         private System.Windows.Forms.ColumnHeader S;
         private System.Windows.Forms.ColumnHeader pc;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.ListView listView3;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
 

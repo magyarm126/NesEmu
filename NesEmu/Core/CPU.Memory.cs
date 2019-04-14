@@ -83,7 +83,7 @@ namespace NesEmu.Core
             if (address >= 0x0 && address <= 0x2000)
             {
                 //0000-2000 internal ram
-                address &= 0x800;
+                address %= 0x800;
                 _ram[address]=value;
             }
             else if (address >= 0x2000 && address <= 0x2007)
@@ -166,6 +166,15 @@ namespace NesEmu.Core
             return ((newadr & 0xFF00) != (oldadr & 0xFF00));
         }
 
+        public byte[] GetRam()//This might be slow
+        {
+            byte[] copy = new byte[0x800];
+
+            Array.Copy(_ram, copy, _ram.Length);
+
+            return copy;
+        }
+
         #endregion
 
         #region Stack Operations
@@ -210,8 +219,8 @@ namespace NesEmu.Core
         /// <param name="value"></param>
         public void Push16(ushort value)
         {
-            byte low  = (byte)(value &= 0b1111_1111);
-            byte high = (byte)((value &= 0b1111_1111_0000_0000) >> 8);
+            byte low  = (byte)(value & 0b1111_1111);
+            byte high = (byte)((value & 0b1111_1111_0000_0000) >> 8);
 
             PushByte(high);
             PushByte(low);
@@ -232,6 +241,8 @@ namespace NesEmu.Core
 
             return ret;
         }
+
+        
 
         #endregion
     }
