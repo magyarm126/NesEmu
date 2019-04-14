@@ -69,9 +69,6 @@ namespace NesEmu
                         Convert.ToString( tmp.P, 2),
                     }));
                 listView2.EndUpdate();
-
-                LoadStack(tmp);
-                LoadRam(tmp);
             }
             else
             {
@@ -174,5 +171,26 @@ namespace NesEmu
             }
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if(_emulator!=null)
+            {
+                _emulator.CPU_LoopStep();
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (_emulator == null || _emulator._cpu == null)
+                return;
+            LoadStack(_emulator._cpu);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (_emulator == null || _emulator._cpu == null)
+                return;
+            LoadRam(_emulator._cpu);
+        }
     }
 }

@@ -18,11 +18,12 @@ namespace NesEmu.Core
 
         public event EventHandler UIChanged;
 
-        private void OnUIChanged()
+        public void OnUIChanged()
         {
             if(UIChanged !=null)
                 UIChanged(this, EventArgs.Empty);
         }
+        
 
         #endregion
 

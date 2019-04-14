@@ -296,14 +296,7 @@ namespace NesEmu.Core
 
         public void ___(AdressingMode mode, ushort address)
         {
-            try
-            {
-                throw new Exception("Illegal OPCODE");
-            }
-            catch(Exception e)
-            {
-
-            }
+            return;
         }
 
         #endregion

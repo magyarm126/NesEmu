@@ -7,6 +7,10 @@ using System.Windows.Forms;
 using NesEmu.Core;
 using NesEmu.Mappers;
 
+using System.Threading;
+using System.Timers;
+using System.Diagnostics;
+
 namespace NesEmu.Core
 {
     public class Emulator
@@ -17,7 +21,16 @@ namespace NesEmu.Core
 
         public Mapper _mapper;
 
-        public Emulator(string File_path = "C:\\Users\\MatePC\\source\\repos\\donkey kong.nes", EventHandler eh = null)
+        public void CPU_LoopStep(int times = 3000)
+        {
+            for (int i = 0; i < times; i++)
+            {
+                _cpu.Step();
+            }
+        }
+
+
+    public Emulator(string File_path = "C:\\Users\\MatePC\\source\\repos\\donkey kong.nes", EventHandler eh = null)
         {
             try
             {
