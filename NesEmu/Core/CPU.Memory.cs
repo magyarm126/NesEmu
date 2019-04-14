@@ -29,7 +29,7 @@ namespace NesEmu.Core
             if (address >= 0x0 && address <= 0x2000)
             {   
                 //0000-2000 internal ram
-                address &= 0x800;
+                address %= 0x800;
                 ret = _ram[address];
             }
             else if(address >= 0x2000 && address<=0x2007)
