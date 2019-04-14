@@ -6,24 +6,6 @@ using System.Threading.Tasks;
 
 namespace NesEmu.Core
 {
-    public enum AdressingMode
-    {
-        //https://wiki.nesdev.com/w/index.php/CPU_addressing_modes
-        Absolute = 1,    // 1
-        AbsoluteX,       // 2
-        AbsoluteY,       // 3
-        Accumulator,     // 4
-        Immediate,       // 5
-        Implied,         // 6
-        IndexedIndirect, // 7
-        Indirect,        // 8
-        IndirectIndexed, // 9
-        Relative,        // 10
-        ZeroPage,        // 11
-        ZeroPageX,       // 12
-        ZeroPageY        // 13
-    }
-
     public class OPCODE
     {
         //http://www.oxyron.de/html/opcodes02.html
@@ -42,11 +24,6 @@ namespace NesEmu.Core
         private string[] _instruction_names;
         private int[] _addressModes, _instructionSizes, _instructionCycles, _instructionPageCycles;
         private int _cycle; //cycle counter
-
-        public AdressingMode GetAdressingMode(byte opcode)
-        {
-            return (AdressingMode)_addressModes[opcode];
-        }
 
         public delegate void Instruction(AdressingMode mode, ushort address);
 
@@ -250,7 +227,7 @@ namespace NesEmu.Core
         }
 
         /// <summary>
-        /// Accumulator) performs a logical AND on the operand and the accumulator and stores the result in the accumulator. This opcode is similar in function to ORA and EOR.
+        /// Accumulator performs a logical AND on the operand and the accumulator and stores the result in the accumulator. This opcode is similar in function to ORA and EOR.
         /// </summary>
         /// <param name="mode"></param>
         /// <param name="address"></param>

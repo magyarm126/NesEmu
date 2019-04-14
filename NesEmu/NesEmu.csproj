@@ -61,6 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Cartridge.cs" />
+    <Compile Include="Core\CPU.Addressing.cs">
+      <DependentUpon>CPU.cs</DependentUpon>
+    </Compile>
     <Compile Include="Core\CPU.cs" />
     <Compile Include="Core\CPU.Instructions.cs">
       <DependentUpon>CPU.cs</DependentUpon>
