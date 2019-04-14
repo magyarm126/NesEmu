@@ -139,6 +139,33 @@ namespace NesEmu.Core
             return ret;
         }
 
+        /// <summary>
+        /// Read 16 bits for indirect modes
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        private ushort Read16WrapPageAround(ushort address)//Reading the last byte of a page as low byte, means high byte is read from the start of the page instead of reading the first byte of the next page
+        {
+            ushort ret = 0;
+            if((address & 0xFF) == 0xFF) //ends with xx_FF;
+            {
+                byte lo = ReadByte(address);
+                byte hi = ReadByte((ushort)(address & (~0xFF))); //0xFFF..FF_00
+
+                ret = (ushort)((hi << 8) | lo);
+            }
+            else
+                ret = Read16(address);
+
+            return ret;
+        }
+
+        public bool IsPageCross(ushort oldadr, byte register)
+        {
+            ushort newadr = (ushort)(oldadr + (ushort)register);
+            return ((newadr & 0xFF00) != (oldadr & 0xFF00));
+        }
+
         #endregion
 
         #region Stack Operations
