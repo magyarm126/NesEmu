@@ -170,14 +170,46 @@ namespace NesEmu.Core
 
         #region Stack Operations
 
+        //Descending empty stack
+        //Reset -> SP = $FD
+
+        //  |----| $1FF
+        //  |----|
+        //  |----|  <--(Pop)
+        //  |    |<-Stack pointer   <<(Push)
+        //  |    |
+        //  |    |
+        //  |    |
+        //  |    | $100
+
+        /// <summary>
+        /// Push 8 bits to stack
+        /// </summary>
+        /// <param name="value"></param>
         public void PushByte(byte value)
         {
-            S++;
             WriteByte((ushort)(S + 0b1_0000_0000), value); //Stack pointer is 8bit
+            S--;
         }
 
+        /// <summary>
+        /// Pops 8bits from stack
+        /// </summary>
+        /// <returns></returns>
+        public byte PopByte()
+        {
+            S++;
+            byte ret = ReadByte((ushort)(S + 0b1_0000_0000)); //Stack pointer is 8bit
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Push 16bits to stack
+        /// </summary>
+        /// <param name="value"></param>
         public void Push16(ushort value)
-        {//unittest
+        {
             byte low  = (byte)(value &= 0b1111_1111);
             byte high = (byte)((value &= 0b1111_1111_0000_0000) >> 8);
 
@@ -185,9 +217,20 @@ namespace NesEmu.Core
             PushByte(low);
         }
 
-        public byte Pop()
+        /// <summary>
+        /// Pop 16bits from stack
+        /// </summary>
+        /// <returns></returns>
+        public ushort Pop16()
         {
-            return 0;
+            ushort ret = 0;
+
+            byte lo = PopByte();
+            byte hi = PopByte();
+
+            ret = (ushort)((hi << 8) | lo);
+
+            return ret;
         }
 
         #endregion
