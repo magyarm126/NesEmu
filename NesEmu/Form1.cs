@@ -71,6 +71,7 @@ namespace NesEmu
                 listView2.EndUpdate();
 
                 LoadStack(tmp);
+                LoadRam(tmp);
             }
             else
             {
@@ -138,6 +139,34 @@ namespace NesEmu
                 }
                 listView3.EndUpdate();
                 listView3.GridLines = true;
+            }
+            else
+            {
+                throw new Exception("Not cool");
+            }
+        }
+
+        private void LoadRam(CPU cpu)
+        {
+            if (cpu != null)
+            {
+
+                byte[] prCode = cpu.GetRam();
+                var prLength = 0x800;
+                listView4.BeginUpdate();
+
+                listView4.Items.Clear();
+                string[] tmp = new string[prLength];
+                for (int i = 0; i < prLength; i++)
+                {
+                    var hexvalue = "0x" + prCode[i].ToString("X2");
+                    var hexaddress = "  $" + (i).ToString("X2");
+                    tmp[i] = hexvalue + hexaddress;
+
+                    listView4.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue }));
+                }
+                listView4.EndUpdate();
+                listView4.GridLines = true;
             }
             else
             {
