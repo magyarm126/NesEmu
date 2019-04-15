@@ -37,26 +37,26 @@ namespace NesEmu.Core
                 //PPU register
                 int ppuregister = (address - 0x2000);
                 //UNIT TEST
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
             else if (address >= 0x2008 && address <= 0x3FFF)
             {
                 int ppuregister = (address - 0x2000) % 8;
                 //UNIT TEST
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
             else if (address >= 0x4000 && address <= 0x4017)
             {
                 //UNIT TEST
                 //NES APU, IO registers
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
             else if (address >= 0x4018 && address <= 0x401F)
             {
                 //UNIT TEST
                 //NES APU, IO registers
                 //CPUTEST?
-                throw new NotImplementedException();
+               // throw new NotImplementedException();
             }
             else if (address >= 0x4020 && address <= 0xFFFF)
             {
@@ -91,26 +91,26 @@ namespace NesEmu.Core
                 //PPU register
                 int ppuregister = (address - 0x2000);
                 //UNIT TEST
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
             else if (address >= 0x2008 && address <= 0x3FFF)
             {
                 int ppuregister = (address - 0x2000) % 8;
                 //UNIT TEST
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
             else if (address >= 0x4000 && address <= 0x4017)
             {
                 //UNIT TEST
                 //NES APU, IO registers
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
             else if (address >= 0x4018 && address <= 0x401F)
             {
                 //UNIT TEST
                 //NES APU, IO registers
                 //CPUTEST?
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
             else if (address >= 0x4020 && address <= 0xFFFF)
             {
