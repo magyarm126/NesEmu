@@ -48,14 +48,14 @@ namespace NesEmu
         {
             if (_emulator == null || _emulator._cpu == null)
                 return;
-            LoadRam(_emulator._cpu);
+            LoadListView(Ram_listView, ListType.RAM, _emulator._cpu.GetRam());
         }
 
         private void Stack_refresh_button_Click(object sender, EventArgs e)
         {
             if (_emulator == null || _emulator._cpu == null)
                 return;
-            LoadStack(_emulator._cpu);
+            LoadListView(Stack_listView3, ListType.STACK, _emulator._cpu.GetRam());
         }
 
         #endregion
@@ -109,6 +109,7 @@ namespace NesEmu
                 OutputLength = InputArray.Length;
 
             listView.BeginUpdate();
+            listView.Items.Clear();
 
             for (int i = 0; i < OutputLength; i++)
             {
@@ -133,90 +134,6 @@ namespace NesEmu
             listView.GridLines = true;
         }
 
-        private void LoadPRG()
-        {
-            if(_emulator != null &&_emulator._cartridge!= null && _emulator._cartridge._PRGROM!= null && _emulator._cpu!=null)
-            {
-
-                var prCode = _emulator._cartridge._PRGROM;
-                var prLength = prCode.Length;
-                PRG_listView1.BeginUpdate();
-
-                string[] tmp = new string[prLength];
-                for( int i= 0; i < prLength; i++)
-                {
-                    var hexvalue = "0x" + prCode[i].ToString("X2");
-                    var hexaddress = "  $" + i.ToString("X2");
-                    var opName = _emulator._cpu.GetOpCodeName(prCode[i]).ToString();
-                    tmp[i] = hexvalue + hexaddress;
-                    
-                    PRG_listView1.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue, opName }));
-                }
-                PRG_listView1.EndUpdate();
-                PRG_listView1.GridLines = true;
-            }
-            else
-            {
-                throw new Exception("Not cool");
-            }
-        }
-
-        private void LoadStack(CPU cpu)
-        {
-            if (cpu != null)
-            {
-
-                byte[] prCode = cpu.GetRam();
-                var prLength = 0x100;
-                Stack_listView3.BeginUpdate();
-
-                Stack_listView3.Items.Clear();
-                string[] tmp = new string[prLength];
-                for (int i = 0; i < prLength; i++)
-                {
-                    var hexvalue = "0x" + prCode[i+0x100].ToString("X2");
-                    var hexaddress = "  $" + (i + 0x100).ToString("X2");
-                    tmp[i] = hexvalue + hexaddress;
-
-                    Stack_listView3.Items.Insert(0, new ListViewItem(new string[] { hexaddress, hexvalue }));
-                }
-                Stack_listView3.EndUpdate();
-                Stack_listView3.GridLines = true;
-            }
-            else
-            {
-                throw new Exception("Not cool");
-            }
-        }
-
-        private void LoadRam(CPU cpu)
-        {
-            if (cpu != null)
-            {
-
-                byte[] prCode = cpu.GetRam();
-                var prLength = 0x800;
-                Ram_listView.BeginUpdate();
-
-                Ram_listView.Items.Clear();
-                string[] tmp = new string[prLength];
-                for (int i = 0; i < prLength; i++)
-                {
-                    var hexvalue = "0x" + prCode[i].ToString("X2");
-                    var hexaddress = "  $" + (i).ToString("X2");
-                    tmp[i] = hexvalue + hexaddress;
-
-                    Ram_listView.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue }));
-                }
-                Ram_listView.EndUpdate();
-                Ram_listView.GridLines = true;
-            }
-            else
-            {
-                throw new Exception("Not cool");
-            }
-        }
-
         #endregion
 
         #region Timers
@@ -237,9 +154,11 @@ namespace NesEmu
                 if (FD.CheckFileExists)
                 {
                     _emulator = new Emulator(File_path: FD.FileName, eh: _cpu_UIChanged);
-                    LoadPRG();
+                    if (_emulator != null && _emulator._cartridge != null && _emulator._cartridge._PRGROM != null)
+                    {
+                        LoadListView(PRG_listView1, ListType.PRGROM, _emulator._cartridge._PRGROM);
+                    }
                 }
-
             }
         }
 
