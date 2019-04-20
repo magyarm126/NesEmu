@@ -15,12 +15,20 @@ namespace NesEmu
 {
     public partial class DebugWindow : Form
     {
+        #region Members
+
         public Emulator _emulator;
+
+        #endregion
+
+        #region Constructors
 
         public DebugWindow()
         {
             InitializeComponent();
         }
+        
+        #endregion
 
         #region Button Clicks
 
@@ -89,7 +97,6 @@ namespace NesEmu
 
         #region ListViews
 
-
         private enum ListType { PRGROM = 1, RAM, STACK};
 
         private void LoadListView(ListView listView, ListType listType, byte[] input)
@@ -154,7 +161,6 @@ namespace NesEmu
             LoadListView(Ram_listView, ListType.RAM, _emulator._cpu.GetRam());
             LoadListView(Stack_listView3, ListType.STACK, _emulator._cpu.GetRam());
         }
-
 
         #endregion
 
