@@ -21,42 +21,49 @@ namespace NesEmu
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        #region Button Clicks
+
+        private void Open_rom_button_Click(object sender, EventArgs e)
         {
-            _emulator = new Emulator("error");
+            openRomFileDialog.ShowDialog(); // Show the dialog.
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            openFileDialog1.ShowDialog(); // Show the dialog.
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            _emulator = new Emulator("C:\\Users\\MatePC\\source\\repos\\SMB3.nes");
-        }
-
-        private void button4_Click(object sender, EventArgs e)
+        private void Cpu_Step_button_Click(object sender, EventArgs e)
         {
             if (_emulator== null || _emulator._cpu==null)
                 return;
             _emulator._cpu.Step();
         }
 
-        private void Donkey_Click(object sender, EventArgs e)
+        private void Cpu_loop_button_Click(object sender, EventArgs e)
         {
-            _emulator = new Emulator(eh:_cpu_UIChanged);
-           // _emulator._cpu.UIChanged += _cpu_UIChanged;
-            if (_emulator != null && _emulator._cpu != null)
+            if (_emulator != null)
             {
-           //     _cpu_UIChanged(_emulator._cpu, EventArgs.Empty); // show init
+                _emulator.CPU_LoopStep();
             }
-            LoadPRG();
         }
+
+        private void Ram_refresh_button_Click(object sender, EventArgs e)
+        {
+            if (_emulator == null || _emulator._cpu == null)
+                return;
+            LoadRam(_emulator._cpu);
+        }
+
+        private void Stack_refresh_button_Click(object sender, EventArgs e)
+        {
+            if (_emulator == null || _emulator._cpu == null)
+                return;
+            LoadStack(_emulator._cpu);
+        }
+
+        #endregion
+
+        #region EventHandlers
 
         private void _cpu_UIChanged(object sender, EventArgs e)
         {
-            if(sender is Core.CPU)
+            if (sender is Core.CPU)
             {
                 Core.CPU tmp = (Core.CPU)sender;
                 listView2.BeginUpdate();
@@ -77,16 +84,9 @@ namespace NesEmu
             }
         }
 
-        private void PushPopTestButton(object sender, EventArgs e)
-        {
-            if(_emulator != null && _emulator._cpu!= null)
-            {
-                _emulator._cpu.PushByte(0x8F);
-                _emulator._cpu.Push16(0xC2DD);
-                _emulator._cpu.Pop16();
-                _emulator._cpu.PopByte();
-            }
-        }
+        #endregion
+
+        #region ListViews
 
         private void LoadPRG()
         {
@@ -172,32 +172,18 @@ namespace NesEmu
             }
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            if(_emulator!=null)
-            {
-                _emulator.CPU_LoopStep();
-            }
-        }
+        #endregion
 
-        private void button7_Click(object sender, EventArgs e)
-        {
-            if (_emulator == null || _emulator._cpu == null)
-                return;
-            LoadStack(_emulator._cpu);
-        }
-
-        private void Ram_refresh_button_Click(object sender, EventArgs e)
-        {
-            if (_emulator == null || _emulator._cpu == null)
-                return;
-            LoadRam(_emulator._cpu);
-        }
+        #region Timers
 
         private void timer1_Tick(object sender, EventArgs e)
         {
 
         }
+
+        #endregion
+
+        #region File Loading
 
         private void OpenFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
@@ -208,8 +194,11 @@ namespace NesEmu
                     _emulator = new Emulator(File_path: FD.FileName, eh: _cpu_UIChanged);
                     LoadPRG();
                 }
-                    
+
             }
         }
+
+        #endregion
+
     }
 }

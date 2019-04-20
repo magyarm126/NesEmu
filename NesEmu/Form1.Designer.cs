@@ -31,14 +31,13 @@ namespace NesEmu
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.Open_rom_button = new System.Windows.Forms.Button();
+            this.Cpu_Step_Button = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.Ram_refresh_button = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.Stack_refresh_button = new System.Windows.Forms.Button();
+            this.Cpu_loop_button = new System.Windows.Forms.Button();
             this.PRG_listView1 = new System.Windows.Forms.ListView();
             this.address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -61,7 +60,7 @@ namespace NesEmu
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openRomFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -70,29 +69,29 @@ namespace NesEmu
             this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button2
+            // Open_rom_button
             // 
-            this.button2.Location = new System.Drawing.Point(12, 19);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(138, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Open ROM file";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.Open_rom_button.Location = new System.Drawing.Point(12, 19);
+            this.Open_rom_button.Name = "Open_rom_button";
+            this.Open_rom_button.Size = new System.Drawing.Size(138, 23);
+            this.Open_rom_button.TabIndex = 1;
+            this.Open_rom_button.Text = "Open ROM file";
+            this.Open_rom_button.UseVisualStyleBackColor = true;
+            this.Open_rom_button.Click += new System.EventHandler(this.Open_rom_button_Click);
             // 
-            // button4
+            // Cpu_Step_Button
             // 
-            this.button4.Location = new System.Drawing.Point(6, 19);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(109, 23);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Step";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.Cpu_Step_Button.Location = new System.Drawing.Point(6, 19);
+            this.Cpu_Step_Button.Name = "Cpu_Step_Button";
+            this.Cpu_Step_Button.Size = new System.Drawing.Size(109, 23);
+            this.Cpu_Step_Button.TabIndex = 3;
+            this.Cpu_Step_Button.Text = "Step";
+            this.Cpu_Step_Button.UseVisualStyleBackColor = true;
+            this.Cpu_Step_Button.Click += new System.EventHandler(this.Cpu_Step_button_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.Open_rom_button);
             this.groupBox1.Location = new System.Drawing.Point(6, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(156, 47);
@@ -103,10 +102,9 @@ namespace NesEmu
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.Ram_refresh_button);
-            this.groupBox2.Controls.Add(this.button7);
-            this.groupBox2.Controls.Add(this.button6);
-            this.groupBox2.Controls.Add(this.button5);
-            this.groupBox2.Controls.Add(this.button4);
+            this.groupBox2.Controls.Add(this.Stack_refresh_button);
+            this.groupBox2.Controls.Add(this.Cpu_loop_button);
+            this.groupBox2.Controls.Add(this.Cpu_Step_Button);
             this.groupBox2.Location = new System.Drawing.Point(6, 113);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(324, 73);
@@ -124,35 +122,25 @@ namespace NesEmu
             this.Ram_refresh_button.UseVisualStyleBackColor = true;
             this.Ram_refresh_button.Click += new System.EventHandler(this.Ram_refresh_button_Click);
             // 
-            // button7
+            // Stack_refresh_button
             // 
-            this.button7.Location = new System.Drawing.Point(162, 48);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 6;
-            this.button7.Text = "Stack";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.Stack_refresh_button.Location = new System.Drawing.Point(162, 48);
+            this.Stack_refresh_button.Name = "Stack_refresh_button";
+            this.Stack_refresh_button.Size = new System.Drawing.Size(75, 23);
+            this.Stack_refresh_button.TabIndex = 6;
+            this.Stack_refresh_button.Text = "Stack";
+            this.Stack_refresh_button.UseVisualStyleBackColor = true;
+            this.Stack_refresh_button.Click += new System.EventHandler(this.Stack_refresh_button_Click);
             // 
-            // button6
+            // Cpu_loop_button
             // 
-            this.button6.Location = new System.Drawing.Point(121, 19);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Start/Stop";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(209, 19);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(109, 23);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "LoadArray";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.PushPopTestButton);
+            this.Cpu_loop_button.Location = new System.Drawing.Point(121, 19);
+            this.Cpu_loop_button.Name = "Cpu_loop_button";
+            this.Cpu_loop_button.Size = new System.Drawing.Size(75, 23);
+            this.Cpu_loop_button.TabIndex = 5;
+            this.Cpu_loop_button.Text = "Start/Stop";
+            this.Cpu_loop_button.UseVisualStyleBackColor = true;
+            this.Cpu_loop_button.Click += new System.EventHandler(this.Cpu_loop_button_Click);
             // 
             // PRG_listView1
             // 
@@ -317,10 +305,10 @@ namespace NesEmu
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // openFileDialog1
+            // openRomFileDialog
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenFileDialog1_FileOk);
+            this.openRomFileDialog.FileName = "sample.nes";
+            this.openRomFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenFileDialog1_FileOk);
             // 
             // DebugWindow
             // 
@@ -346,11 +334,10 @@ namespace NesEmu
         }
 
         #endregion
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button Open_rom_button;
+        private System.Windows.Forms.Button Cpu_Step_Button;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.ListView PRG_listView1;
         private System.Windows.Forms.ColumnHeader address;
         private System.Windows.Forms.ColumnHeader value;
@@ -372,11 +359,11 @@ namespace NesEmu
         private System.Windows.Forms.ListView Ram_listView;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button Cpu_loop_button;
         private System.Windows.Forms.Button Ram_refresh_button;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button Stack_refresh_button;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openRomFileDialog;
     }
 }
 
