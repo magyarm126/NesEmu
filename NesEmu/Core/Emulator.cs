@@ -34,7 +34,7 @@ namespace NesEmu.Core
         {
             try
             {
-                _cartridge = new Core.Cartridge(File_path);
+                _cartridge = new Cartridge(File_path);
                 //MessageBox.Show("Succes!", "ROM loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 switch (_cartridge._MapperNumber)
@@ -57,11 +57,16 @@ namespace NesEmu.Core
                 }
                     
             }
-            catch (System.FormatException errormsg)
+            catch (FormatException errormsg)
             {
                 MessageBox.Show(errormsg.Message, "Error occured while loadin the ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
- 
+            catch (NotImplementedException)
+            {
+                MessageBox.Show("Unsupported Mapper number:" + _cartridge._MapperNumber, "Error occured while loadin the ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
         }
     }
 }

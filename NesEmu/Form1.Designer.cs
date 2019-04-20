@@ -2,7 +2,7 @@
 
 namespace NesEmu
 {
-    partial class Form1
+    partial class DebugWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -30,15 +30,16 @@ namespace NesEmu
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.components = new System.ComponentModel.Container();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.Donkey = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.Ram_refresh_button = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.PRG_listView1 = new System.Windows.Forms.ListView();
             this.address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.opcode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -52,16 +53,15 @@ namespace NesEmu
             this.P = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.listView3 = new System.Windows.Forms.ListView();
+            this.Stack_listView3 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.listView4 = new System.Windows.Forms.ListView();
+            this.Ram_listView = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -70,35 +70,15 @@ namespace NesEmu
             this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(6, 19);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Error";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(87, 19);
+            this.button2.Location = new System.Drawing.Point(12, 19);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(138, 23);
             this.button2.TabIndex = 1;
-            this.button2.Text = "Corrupt";
+            this.button2.Text = "Open ROM file";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(168, 19);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Original";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -110,42 +90,59 @@ namespace NesEmu
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // Donkey
-            // 
-            this.Donkey.Location = new System.Drawing.Point(249, 19);
-            this.Donkey.Name = "Donkey";
-            this.Donkey.Size = new System.Drawing.Size(75, 23);
-            this.Donkey.TabIndex = 4;
-            this.Donkey.Text = "Donkey";
-            this.Donkey.UseVisualStyleBackColor = true;
-            this.Donkey.Click += new System.EventHandler(this.Donkey_Click);
-            // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.Donkey);
             this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Location = new System.Drawing.Point(6, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(330, 50);
+            this.groupBox1.Size = new System.Drawing.Size(156, 47);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Load cartridge";
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button8);
+            this.groupBox2.Controls.Add(this.Ram_refresh_button);
             this.groupBox2.Controls.Add(this.button7);
             this.groupBox2.Controls.Add(this.button6);
             this.groupBox2.Controls.Add(this.button5);
             this.groupBox2.Controls.Add(this.button4);
-            this.groupBox2.Location = new System.Drawing.Point(6, 56);
+            this.groupBox2.Location = new System.Drawing.Point(6, 113);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(324, 130);
+            this.groupBox2.Size = new System.Drawing.Size(324, 73);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "CPU";
+            // 
+            // Ram_refresh_button
+            // 
+            this.Ram_refresh_button.Location = new System.Drawing.Point(6, 48);
+            this.Ram_refresh_button.Name = "Ram_refresh_button";
+            this.Ram_refresh_button.Size = new System.Drawing.Size(75, 23);
+            this.Ram_refresh_button.TabIndex = 7;
+            this.Ram_refresh_button.Text = "Ram";
+            this.Ram_refresh_button.UseVisualStyleBackColor = true;
+            this.Ram_refresh_button.Click += new System.EventHandler(this.Ram_refresh_button_Click);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(162, 48);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "Stack";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(121, 19);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.TabIndex = 5;
+            this.button6.Text = "Start/Stop";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button5
             // 
@@ -155,20 +152,20 @@ namespace NesEmu
             this.button5.TabIndex = 4;
             this.button5.Text = "LoadArray";
             this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.Click += new System.EventHandler(this.PushPopTestButton);
             // 
-            // listView1
+            // PRG_listView1
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.PRG_listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.address,
             this.value,
             this.opcode});
-            this.listView1.Location = new System.Drawing.Point(6, 19);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(211, 549);
-            this.listView1.TabIndex = 9;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.PRG_listView1.Location = new System.Drawing.Point(6, 19);
+            this.PRG_listView1.Name = "PRG_listView1";
+            this.PRG_listView1.Size = new System.Drawing.Size(211, 549);
+            this.PRG_listView1.TabIndex = 9;
+            this.PRG_listView1.UseCompatibleStateImageBehavior = false;
+            this.PRG_listView1.View = System.Windows.Forms.View.Details;
             // 
             // address
             // 
@@ -244,7 +241,7 @@ namespace NesEmu
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.listView1);
+            this.groupBox4.Controls.Add(this.PRG_listView1);
             this.groupBox4.Location = new System.Drawing.Point(336, 12);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(217, 568);
@@ -254,7 +251,7 @@ namespace NesEmu
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.listView3);
+            this.groupBox5.Controls.Add(this.Stack_listView3);
             this.groupBox5.Location = new System.Drawing.Point(168, 192);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(162, 388);
@@ -262,17 +259,17 @@ namespace NesEmu
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Stack";
             // 
-            // listView3
+            // Stack_listView3
             // 
-            this.listView3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Stack_listView3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.listView3.Location = new System.Drawing.Point(0, 19);
-            this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(162, 369);
-            this.listView3.TabIndex = 9;
-            this.listView3.UseCompatibleStateImageBehavior = false;
-            this.listView3.View = System.Windows.Forms.View.Details;
+            this.Stack_listView3.Location = new System.Drawing.Point(0, 19);
+            this.Stack_listView3.Name = "Stack_listView3";
+            this.Stack_listView3.Size = new System.Drawing.Size(162, 369);
+            this.Stack_listView3.TabIndex = 9;
+            this.Stack_listView3.UseCompatibleStateImageBehavior = false;
+            this.Stack_listView3.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader1
             // 
@@ -286,7 +283,7 @@ namespace NesEmu
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.listView4);
+            this.groupBox6.Controls.Add(this.Ram_listView);
             this.groupBox6.Location = new System.Drawing.Point(6, 192);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(156, 388);
@@ -294,17 +291,17 @@ namespace NesEmu
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Ram";
             // 
-            // listView4
+            // Ram_listView
             // 
-            this.listView4.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Ram_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3,
             this.columnHeader4});
-            this.listView4.Location = new System.Drawing.Point(0, 19);
-            this.listView4.Name = "listView4";
-            this.listView4.Size = new System.Drawing.Size(156, 369);
-            this.listView4.TabIndex = 9;
-            this.listView4.UseCompatibleStateImageBehavior = false;
-            this.listView4.View = System.Windows.Forms.View.Details;
+            this.Ram_listView.Location = new System.Drawing.Point(0, 19);
+            this.Ram_listView.Name = "Ram_listView";
+            this.Ram_listView.Size = new System.Drawing.Size(156, 369);
+            this.Ram_listView.TabIndex = 9;
+            this.Ram_listView.UseCompatibleStateImageBehavior = false;
+            this.Ram_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader3
             // 
@@ -316,37 +313,16 @@ namespace NesEmu
             this.columnHeader4.Text = "Value";
             this.columnHeader4.Width = 75;
             // 
-            // button6
+            // timer1
             // 
-            this.button6.Location = new System.Drawing.Point(121, 19);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Start/Stop";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // button7
+            // openFileDialog1
             // 
-            this.button7.Location = new System.Drawing.Point(162, 101);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 6;
-            this.button7.Text = "Stack";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenFileDialog1_FileOk);
             // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(6, 101);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 7;
-            this.button8.Text = "Ram";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
-            // Form1
+            // DebugWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -357,7 +333,7 @@ namespace NesEmu
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
+            this.Name = "DebugWindow";
             this.Text = "NesEmu";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -370,16 +346,12 @@ namespace NesEmu
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button Donkey;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView PRG_listView1;
         private System.Windows.Forms.ColumnHeader address;
         private System.Windows.Forms.ColumnHeader value;
         private System.Windows.Forms.ColumnHeader opcode;
@@ -393,16 +365,18 @@ namespace NesEmu
         private System.Windows.Forms.ColumnHeader pc;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.ListView listView3;
+        private System.Windows.Forms.ListView Stack_listView3;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.ListView listView4;
+        private System.Windows.Forms.ListView Ram_listView;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button Ram_refresh_button;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 

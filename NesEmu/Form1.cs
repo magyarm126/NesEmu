@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +13,10 @@ using NesEmu.Core;
 
 namespace NesEmu
 {
-    public partial class Form1 : Form
+    public partial class DebugWindow : Form
     {
         public Emulator _emulator;
-        public Form1()
+        public DebugWindow()
         {
             InitializeComponent();
         }
@@ -27,7 +28,7 @@ namespace NesEmu
 
         private void button2_Click(object sender, EventArgs e)
         {
-            _emulator = new Emulator("C:\\Users\\MatePC\\source\\repos\\SMB3Corrupt.nes");
+            openFileDialog1.ShowDialog(); // Show the dialog.
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -76,7 +77,7 @@ namespace NesEmu
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void PushPopTestButton(object sender, EventArgs e)
         {
             if(_emulator != null && _emulator._cpu!= null)
             {
@@ -94,7 +95,7 @@ namespace NesEmu
 
                 var prCode = _emulator._cartridge._PRGROM;
                 var prLength = prCode.Length;
-                listView1.BeginUpdate();
+                PRG_listView1.BeginUpdate();
 
                 string[] tmp = new string[prLength];
                 for( int i= 0; i < prLength; i++)
@@ -104,10 +105,10 @@ namespace NesEmu
                     var opName = _emulator._cpu.GetOpCodeName(prCode[i]).ToString();
                     tmp[i] = hexvalue + hexaddress;
                     
-                    listView1.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue, opName }));
+                    PRG_listView1.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue, opName }));
                 }
-                listView1.EndUpdate();
-                listView1.GridLines = true;
+                PRG_listView1.EndUpdate();
+                PRG_listView1.GridLines = true;
             }
             else
             {
@@ -122,9 +123,9 @@ namespace NesEmu
 
                 byte[] prCode = cpu.GetRam();
                 var prLength = 0x100;
-                listView3.BeginUpdate();
+                Stack_listView3.BeginUpdate();
 
-                listView3.Items.Clear();
+                Stack_listView3.Items.Clear();
                 string[] tmp = new string[prLength];
                 for (int i = 0; i < prLength; i++)
                 {
@@ -132,10 +133,10 @@ namespace NesEmu
                     var hexaddress = "  $" + (i + 0x100).ToString("X2");
                     tmp[i] = hexvalue + hexaddress;
 
-                    listView3.Items.Insert(0, new ListViewItem(new string[] { hexaddress, hexvalue }));
+                    Stack_listView3.Items.Insert(0, new ListViewItem(new string[] { hexaddress, hexvalue }));
                 }
-                listView3.EndUpdate();
-                listView3.GridLines = true;
+                Stack_listView3.EndUpdate();
+                Stack_listView3.GridLines = true;
             }
             else
             {
@@ -150,9 +151,9 @@ namespace NesEmu
 
                 byte[] prCode = cpu.GetRam();
                 var prLength = 0x800;
-                listView4.BeginUpdate();
+                Ram_listView.BeginUpdate();
 
-                listView4.Items.Clear();
+                Ram_listView.Items.Clear();
                 string[] tmp = new string[prLength];
                 for (int i = 0; i < prLength; i++)
                 {
@@ -160,10 +161,10 @@ namespace NesEmu
                     var hexaddress = "  $" + (i).ToString("X2");
                     tmp[i] = hexvalue + hexaddress;
 
-                    listView4.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue }));
+                    Ram_listView.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue }));
                 }
-                listView4.EndUpdate();
-                listView4.GridLines = true;
+                Ram_listView.EndUpdate();
+                Ram_listView.GridLines = true;
             }
             else
             {
@@ -186,11 +187,29 @@ namespace NesEmu
             LoadStack(_emulator._cpu);
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void Ram_refresh_button_Click(object sender, EventArgs e)
         {
             if (_emulator == null || _emulator._cpu == null)
                 return;
             LoadRam(_emulator._cpu);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OpenFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            if (sender is FileDialog FD)
+            {
+                if (FD.CheckFileExists)
+                {
+                    _emulator = new Emulator(File_path: FD.FileName, eh: _cpu_UIChanged);
+                    LoadPRG();
+                }
+                    
+            }
         }
     }
 }
