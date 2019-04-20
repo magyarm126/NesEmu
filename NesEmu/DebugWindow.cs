@@ -43,24 +43,12 @@ namespace NesEmu
 
         private void Cpu_Step_button_Click(object sender, EventArgs e)
         {
-            if (_emulator== null || _emulator._cpu==null)
-                return;
-            _emulator._cpu.Step();
-        }
-
-        private void Cpu_loop_button_Click(object sender, EventArgs e)
-        {
-            if (_emulator != null)
-            {
-                _emulator.CPU_LoopStep();
-            }
+            _emulator?._cpu?.Step();
         }
 
         private void Ram_refresh_button_Click(object sender, EventArgs e)
         {
-            if (_emulator == null || _emulator._cpu == null)
-                return;
-            LoadListView(Ram_listView, ListType.RAM, _emulator._cpu.GetRam());
+            LoadListView(Ram_listView, ListType.RAM, _emulator?._cpu?.GetRam());
         }
 
         private void Stack_refresh_button_Click(object sender, EventArgs e)
@@ -105,6 +93,9 @@ namespace NesEmu
 
         private void LoadListView(ListView listView, ListType listType, byte[] input)
         {
+            if (input is null)
+                return;
+
             byte[] InputArray = input;
 
             int StartIndex = 0;
@@ -131,8 +122,7 @@ namespace NesEmu
                 if(listType==ListType.PRGROM)
                 {
                     string opName= "";
-                    if (_emulator != null && _emulator._cpu != null)
-                        opName = _emulator._cpu.GetOpCodeName(InputArray[i + StartIndex]).ToString();
+                    opName = _emulator?._cpu?.GetOpCodeName(InputArray[i + StartIndex]).ToString();
                     listView.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue, opName }));
                 }
                 else if(listType == ListType.RAM)
@@ -172,7 +162,15 @@ namespace NesEmu
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            _emulator?._cpu?.Step();
+        }
 
+        private void Timer_start_stop_button_Click(object sender, EventArgs e)
+        {
+            if (timer1.Enabled)
+                timer1.Stop();
+            else
+                timer1.Start();
         }
 
         #endregion

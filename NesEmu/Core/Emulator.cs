@@ -21,17 +21,6 @@ namespace NesEmu.Core
 
         public Mapper _mapper;
 
-        public void CPU_LoopStep(int times = 3000)
-        {
-            if (_cpu is null)
-                return;
-            for (int i = 0; i < times; i++)
-            {
-                _cpu.Step();
-            }
-        }
-
-
     public Emulator(string File_path = "C:\\Users\\MatePC\\source\\repos\\donkey kong.nes", EventHandler eh = null)
         {
             try
@@ -50,13 +39,9 @@ namespace NesEmu.Core
 
                 
                 if (eh != null)
-                {
                     _cpu = new CPU(this,eh:eh);//cpu needs mapper
-                }
                 else
-                {
-                    _cpu = new CPU(this);//cpu needs mapper
-                }
+                    _cpu = new CPU(this);
                     
             }
             catch (FormatException errormsg)

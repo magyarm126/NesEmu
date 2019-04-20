@@ -35,9 +35,9 @@ namespace NesEmu
             this.Cpu_Step_Button = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.Timer_start_stop_button = new System.Windows.Forms.Button();
             this.Ram_refresh_button = new System.Windows.Forms.Button();
             this.Stack_refresh_button = new System.Windows.Forms.Button();
-            this.Cpu_loop_button = new System.Windows.Forms.Button();
             this.PRG_listView1 = new System.Windows.Forms.ListView();
             this.address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -101,9 +101,9 @@ namespace NesEmu
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.Timer_start_stop_button);
             this.groupBox2.Controls.Add(this.Ram_refresh_button);
             this.groupBox2.Controls.Add(this.Stack_refresh_button);
-            this.groupBox2.Controls.Add(this.Cpu_loop_button);
             this.groupBox2.Controls.Add(this.Cpu_Step_Button);
             this.groupBox2.Location = new System.Drawing.Point(6, 113);
             this.groupBox2.Name = "groupBox2";
@@ -111,6 +111,16 @@ namespace NesEmu
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "CPU";
+            // 
+            // Timer_start_stop_button
+            // 
+            this.Timer_start_stop_button.Location = new System.Drawing.Point(121, 19);
+            this.Timer_start_stop_button.Name = "Timer_start_stop_button";
+            this.Timer_start_stop_button.Size = new System.Drawing.Size(116, 23);
+            this.Timer_start_stop_button.TabIndex = 8;
+            this.Timer_start_stop_button.Text = "Timer Start/Stop";
+            this.Timer_start_stop_button.UseVisualStyleBackColor = true;
+            this.Timer_start_stop_button.Click += new System.EventHandler(this.Timer_start_stop_button_Click);
             // 
             // Ram_refresh_button
             // 
@@ -132,23 +142,14 @@ namespace NesEmu
             this.Stack_refresh_button.UseVisualStyleBackColor = true;
             this.Stack_refresh_button.Click += new System.EventHandler(this.Stack_refresh_button_Click);
             // 
-            // Cpu_loop_button
-            // 
-            this.Cpu_loop_button.Location = new System.Drawing.Point(121, 19);
-            this.Cpu_loop_button.Name = "Cpu_loop_button";
-            this.Cpu_loop_button.Size = new System.Drawing.Size(75, 23);
-            this.Cpu_loop_button.TabIndex = 5;
-            this.Cpu_loop_button.Text = "Start/Stop";
-            this.Cpu_loop_button.UseVisualStyleBackColor = true;
-            this.Cpu_loop_button.Click += new System.EventHandler(this.Cpu_loop_button_Click);
-            // 
             // PRG_listView1
             // 
             this.PRG_listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.address,
             this.value,
             this.opcode});
-            this.PRG_listView1.Location = new System.Drawing.Point(6, 19);
+            this.PRG_listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PRG_listView1.Location = new System.Drawing.Point(3, 16);
             this.PRG_listView1.Name = "PRG_listView1";
             this.PRG_listView1.Size = new System.Drawing.Size(211, 549);
             this.PRG_listView1.TabIndex = 9;
@@ -177,7 +178,7 @@ namespace NesEmu
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Registers";
             // 
-            // listView2
+            // Cpu_Log_listView2
             // 
             this.Cpu_Log_listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.X,
@@ -186,10 +187,11 @@ namespace NesEmu
             this.S,
             this.pc,
             this.P});
+            this.Cpu_Log_listView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Cpu_Log_listView2.GridLines = true;
-            this.Cpu_Log_listView2.Location = new System.Drawing.Point(0, 19);
-            this.Cpu_Log_listView2.Name = "listView2";
-            this.Cpu_Log_listView2.Size = new System.Drawing.Size(575, 549);
+            this.Cpu_Log_listView2.Location = new System.Drawing.Point(3, 16);
+            this.Cpu_Log_listView2.Name = "Cpu_Log_listView2";
+            this.Cpu_Log_listView2.Size = new System.Drawing.Size(569, 549);
             this.Cpu_Log_listView2.TabIndex = 0;
             this.Cpu_Log_listView2.UseCompatibleStateImageBehavior = false;
             this.Cpu_Log_listView2.View = System.Windows.Forms.View.Details;
@@ -252,9 +254,10 @@ namespace NesEmu
             this.Stack_listView3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.Stack_listView3.Location = new System.Drawing.Point(0, 19);
+            this.Stack_listView3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Stack_listView3.Location = new System.Drawing.Point(3, 16);
             this.Stack_listView3.Name = "Stack_listView3";
-            this.Stack_listView3.Size = new System.Drawing.Size(162, 369);
+            this.Stack_listView3.Size = new System.Drawing.Size(156, 369);
             this.Stack_listView3.TabIndex = 9;
             this.Stack_listView3.UseCompatibleStateImageBehavior = false;
             this.Stack_listView3.View = System.Windows.Forms.View.Details;
@@ -284,9 +287,10 @@ namespace NesEmu
             this.Ram_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3,
             this.columnHeader4});
-            this.Ram_listView.Location = new System.Drawing.Point(0, 19);
+            this.Ram_listView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Ram_listView.Location = new System.Drawing.Point(3, 16);
             this.Ram_listView.Name = "Ram_listView";
-            this.Ram_listView.Size = new System.Drawing.Size(156, 369);
+            this.Ram_listView.Size = new System.Drawing.Size(150, 369);
             this.Ram_listView.TabIndex = 9;
             this.Ram_listView.UseCompatibleStateImageBehavior = false;
             this.Ram_listView.View = System.Windows.Forms.View.Details;
@@ -303,6 +307,7 @@ namespace NesEmu
             // 
             // timer1
             // 
+            this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // openRomFileDialog
@@ -359,11 +364,11 @@ namespace NesEmu
         private System.Windows.Forms.ListView Ram_listView;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.Button Cpu_loop_button;
         private System.Windows.Forms.Button Ram_refresh_button;
         private System.Windows.Forms.Button Stack_refresh_button;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.OpenFileDialog openRomFileDialog;
+        private System.Windows.Forms.Button Timer_start_stop_button;
     }
 }
 
