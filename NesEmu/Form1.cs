@@ -16,6 +16,7 @@ namespace NesEmu
     public partial class DebugWindow : Form
     {
         public Emulator _emulator;
+
         public DebugWindow()
         {
             InitializeComponent();
@@ -87,6 +88,50 @@ namespace NesEmu
         #endregion
 
         #region ListViews
+
+        private enum ListType { PRGROM = 1, RAM, STACK};
+
+        private void LoadListView(ListView listView, ListType listType, byte[] input)
+        {
+            byte[] InputArray = input;
+
+            int StartIndex = 0;
+            int OutputLength = 0;
+
+            if (listType == ListType.RAM)
+                OutputLength = 0x800;
+            else if (listType == ListType.STACK)
+            {
+                StartIndex = 0x100;
+                OutputLength = 0x100;
+            }
+            else
+                OutputLength = InputArray.Length;
+
+            listView.BeginUpdate();
+
+            for (int i = 0; i < OutputLength; i++)
+            {
+                var hexvalue = "0x" + InputArray[i+ StartIndex].ToString("X2");
+                var hexaddress = "  $" + (i + StartIndex).ToString("X2");
+
+                if(listType==ListType.PRGROM)
+                {
+                    var opName = _emulator._cpu.GetOpCodeName(InputArray[i + StartIndex]).ToString();
+                    listView.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue, opName }));
+                }
+                else if(listType == ListType.RAM)
+                {
+                    listView.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue }));
+                }
+                else if (listType == ListType.STACK)
+                {
+                    listView.Items.Insert(0, new ListViewItem(new string[] { hexaddress, hexvalue }));
+                }
+            }
+            listView.EndUpdate();
+            listView.GridLines = true;
+        }
 
         private void LoadPRG()
         {
