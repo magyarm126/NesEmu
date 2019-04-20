@@ -23,6 +23,8 @@ namespace NesEmu.Core
 
         public void CPU_LoopStep(int times = 3000)
         {
+            if (_cpu is null)
+                return;
             for (int i = 0; i < times; i++)
             {
                 _cpu.Step();

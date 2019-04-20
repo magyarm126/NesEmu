@@ -67,8 +67,8 @@ namespace NesEmu
             if (sender is Core.CPU)
             {
                 Core.CPU tmp = (Core.CPU)sender;
-                listView2.BeginUpdate();
-                listView2.Items.Insert(0, new ListViewItem(
+                Cpu_Log_listView2.BeginUpdate();
+                Cpu_Log_listView2.Items.Insert(0, new ListViewItem(
                     new string[] {
                         tmp.X.ToString("X2"),
                         tmp.Y.ToString("X2"),
@@ -77,7 +77,7 @@ namespace NesEmu
                         tmp.PC.ToString("X2"),
                         Convert.ToString( tmp.P, 2),
                     }));
-                listView2.EndUpdate();
+                Cpu_Log_listView2.EndUpdate();
             }
             else
             {
@@ -88,6 +88,7 @@ namespace NesEmu
         #endregion
 
         #region ListViews
+
 
         private enum ListType { PRGROM = 1, RAM, STACK};
 
@@ -118,7 +119,9 @@ namespace NesEmu
 
                 if(listType==ListType.PRGROM)
                 {
-                    var opName = _emulator._cpu.GetOpCodeName(InputArray[i + StartIndex]).ToString();
+                    string opName= "";
+                    if (_emulator != null && _emulator._cpu != null)
+                        opName = _emulator._cpu.GetOpCodeName(InputArray[i + StartIndex]).ToString();
                     listView.Items.Add(new ListViewItem(new string[] { hexaddress, hexvalue, opName }));
                 }
                 else if(listType == ListType.RAM)
@@ -133,6 +136,25 @@ namespace NesEmu
             listView.EndUpdate();
             listView.GridLines = true;
         }
+
+        private void ClearListViews()
+        {
+            Cpu_Log_listView2.Items.Clear();
+            Ram_listView.Items.Clear();
+            Stack_listView3.Items.Clear();
+            PRG_listView1.Items.Clear();
+        }
+
+        private void LoadListViews()
+        {
+            if (_emulator == null || _emulator._cpu == null || _emulator._cartridge == null || _emulator._cartridge._PRGROM == null)
+                return;
+
+            LoadListView(PRG_listView1, ListType.PRGROM, _emulator._cartridge._PRGROM);
+            LoadListView(Ram_listView, ListType.RAM, _emulator._cpu.GetRam());
+            LoadListView(Stack_listView3, ListType.STACK, _emulator._cpu.GetRam());
+        }
+
 
         #endregion
 
@@ -153,11 +175,11 @@ namespace NesEmu
             {
                 if (FD.CheckFileExists)
                 {
+                    ClearListViews();
+
                     _emulator = new Emulator(File_path: FD.FileName, eh: _cpu_UIChanged);
-                    if (_emulator != null && _emulator._cartridge != null && _emulator._cartridge._PRGROM != null)
-                    {
-                        LoadListView(PRG_listView1, ListType.PRGROM, _emulator._cartridge._PRGROM);
-                    }
+
+                    LoadListViews();
                 }
             }
         }

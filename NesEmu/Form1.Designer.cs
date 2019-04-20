@@ -43,7 +43,7 @@ namespace NesEmu
             this.value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.opcode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.listView2 = new System.Windows.Forms.ListView();
+            this.Cpu_Log_listView2 = new System.Windows.Forms.ListView();
             this.X = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Y = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.A = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -169,7 +169,7 @@ namespace NesEmu
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.listView2);
+            this.groupBox3.Controls.Add(this.Cpu_Log_listView2);
             this.groupBox3.Location = new System.Drawing.Point(559, 12);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(575, 568);
@@ -179,20 +179,20 @@ namespace NesEmu
             // 
             // listView2
             // 
-            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Cpu_Log_listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.X,
             this.Y,
             this.A,
             this.S,
             this.pc,
             this.P});
-            this.listView2.GridLines = true;
-            this.listView2.Location = new System.Drawing.Point(0, 19);
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(575, 549);
-            this.listView2.TabIndex = 0;
-            this.listView2.UseCompatibleStateImageBehavior = false;
-            this.listView2.View = System.Windows.Forms.View.Details;
+            this.Cpu_Log_listView2.GridLines = true;
+            this.Cpu_Log_listView2.Location = new System.Drawing.Point(0, 19);
+            this.Cpu_Log_listView2.Name = "listView2";
+            this.Cpu_Log_listView2.Size = new System.Drawing.Size(575, 549);
+            this.Cpu_Log_listView2.TabIndex = 0;
+            this.Cpu_Log_listView2.UseCompatibleStateImageBehavior = false;
+            this.Cpu_Log_listView2.View = System.Windows.Forms.View.Details;
             // 
             // X
             // 
@@ -343,7 +343,7 @@ namespace NesEmu
         private System.Windows.Forms.ColumnHeader value;
         private System.Windows.Forms.ColumnHeader opcode;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.ListView Cpu_Log_listView2;
         private System.Windows.Forms.ColumnHeader X;
         private System.Windows.Forms.ColumnHeader Y;
         private System.Windows.Forms.ColumnHeader A;
