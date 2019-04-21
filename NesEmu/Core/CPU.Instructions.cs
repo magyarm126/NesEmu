@@ -233,55 +233,94 @@ namespace NesEmu.Core
         public void BPL(AdressingMode mode, ushort address)
         {
             if (!SF.Negative)
-            {
-                _cycle += IsPageCross(PC, address) ? 2 : 1;
-                PC = address;
-            }
+                Branch(address);
         }
 
         /// <summary>
         /// Branch on MInus
-        /// Branches are dependant on the status of the flag bits when the op code is encountered. A branch not taken requires two machine cycles. Add one if the branch is taken and add one more if the branch crosses a page boundary.
         /// </summary>
         /// <param name="mode"></param>
         /// <param name="address"></param>
         public void BMI(AdressingMode mode, ushort address)
         {
             if (SF.Negative)
-            {
-                _cycle += IsPageCross(PC, address) ? 2 : 1;
-                PC = address;
-            }
+                Branch(address);
         }
 
+        /// <summary>
+        /// Branch on oVerflow Clear
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void BVC(AdressingMode mode, ushort address)
         {
-            return;
+            if (!SF.Overflow)
+                Branch(address);
         }
 
+        /// <summary>
+        /// Branch on oVerflow Set
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void BVS(AdressingMode mode, ushort address)
         {
-            return;
+            if (SF.Overflow)
+                Branch(address);
         }
 
+        /// <summary>
+        /// Branch on Carry Clear
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void BCC(AdressingMode mode, ushort address)
         {
-            return;
+            if (!SF.Carry)
+                Branch(address);
         }
 
+        /// <summary>
+        /// Branch on Carry Set
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void BCS(AdressingMode mode, ushort address)
         {
-            return;
+            if (SF.Carry)
+                Branch(address);
         }
 
+        /// <summary>
+        /// Branch on Not Equal
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void BNE(AdressingMode mode, ushort address)
         {
-            return;
+            if (!SF.Zero)
+                Branch(address);
         }
 
+        /// <summary>
+        /// Branch on EQual
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void BEQ(AdressingMode mode, ushort address)
         {
-            return;
+            if (SF.Zero)
+                Branch(address);
+        }
+
+        /// <summary>
+        /// Branches are dependant on the status of the flag bits when the op code is encountered. A branch not taken requires two machine cycles. Add one if the branch is taken and add one more if the branch crosses a page boundary.
+        /// </summary>
+        /// <param name="address"></param>
+        private void Branch(ushort address)
+        {
+            _cycle += IsPageCross(PC, address) ? 2 : 1;
+            PC = address;
         }
 
         #endregion
