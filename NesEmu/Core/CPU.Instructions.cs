@@ -198,96 +198,6 @@ namespace NesEmu.Core
         
         #endregion
 
-        /// <summary>
-        /// Add with carry. Adds Operand to A register, sets Zero, Negative, Carry, Overflow flags
-        /// https://stackoverflow.com/questions/29193303/6502-emulation-proper-way-to-implement-adc-and-sbc
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <param name="address"></param>
-        public void ADC(AdressingMode mode, ushort address)
-        {
-            //Decimal mode was cut from NES
-
-            byte Operand = ReadByte(address);
-            int carry = SF.Carry ? 1 : 0;
-
-            byte sum = (byte)(A + Operand + carry);
-            Set_Negative_and_Zero(sum);
-
-            SF.Carry = (A + Operand + carry) > 0xFF;
-            SF.Overflow = (~(A ^ Operand) & (A ^ sum) & 0x80) != 0;
-
-            A = sum;
-
-            //0b1xxx_xxxx       0011
-            //0b0xxx_xxxx       0101
-            //-----------  XOR  ----
-            //0b1xxx_xxxx       0110
-
-            //(A ^ Operand)     (Different)Negative and Positive
-            //~(A ^ Operand)    Same
-
-            //(A ^ sum)         Different
-
-            //0x80=0b1000_0000  Extract the important bit
-        }
-
-        /// <summary>
-        /// Substract with carry. Substracts Operand from A register, sets Zero, Negative, Carry, Overflow flags
-        /// https://stackoverflow.com/questions/29193303/6502-emulation-proper-way-to-implement-adc-and-sbc
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <param name="address"></param>
-        public void SBC(AdressingMode mode, ushort address)
-        {
-            //same as ADC with with complement value input
-
-            byte Operand = (byte)~ReadByte(address); //Complement
-            int carry = SF.Carry ? 1 : 0;
-
-            byte sum = (byte)(A + Operand + carry);
-            Set_Negative_and_Zero(sum);
-
-            SF.Carry = (A + Operand + carry) > 0xFF;
-            SF.Overflow = (~(A ^ Operand) & (A ^ sum) & 0x80) != 0;
-
-            A = sum;
-        }
-
-        /// <summary>
-        /// STA (Store Accumulator In Memory) stores the accumulator into a specified memory address. It is probably the second most-used opcode in 6502 assembly as it stores the most-used register. It is similar in function to STX and STY.
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <param name="address"></param>
-        public void STA(AdressingMode mode, ushort address)
-        {
-            WriteByte(address, A);
-        }
-
-        /// <summary>
-        /// LDA (Load Accumulator With Memory) loads the accumulator with specified memory. It is probably the most-used opcode in 6502 assembly as it loads the most-used register. It is similar in function to LDX and LDY.
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <param name="address"></param>
-        public void LDA(AdressingMode mode, ushort address)
-        {
-            byte Operand = ReadByte(address);
-            Set_Negative_and_Zero(Operand);
-            A = Operand;
-        }
-
-        /// <summary>
-        /// Compare sets flags as if a subtraction had been carried out. If the value in the accumulator is equal or greater than the compared value, the Carry will be set. The equal (Z) and negative (N) flags will be set based on equality or lack thereof and the sign (i.e. A>=$80) of the accumulator.
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <param name="address"></param>
-        public void CMP(AdressingMode mode, ushort address)
-        {
-            byte Operand = ReadByte(address);
-            SF.Carry = A >= Operand;
-            Set_Negative_and_Zero((byte)(A - Operand));
-        }
-
         #region Jump
 
         public void JMP(AdressingMode mode, ushort address)
@@ -493,6 +403,18 @@ namespace NesEmu.Core
 
         #region Registers
 
+        /// <summary>
+        /// Compare sets flags as if a subtraction had been carried out. If the value in the accumulator is equal or greater than the compared value, the Carry will be set. The equal (Z) and negative (N) flags will be set based on equality or lack thereof and the sign (i.e. A>=$80) of the accumulator.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void CMP(AdressingMode mode, ushort address)
+        {
+            byte Operand = ReadByte(address);
+            SF.Carry = A >= Operand;
+            Set_Negative_and_Zero((byte)(A - Operand));
+        }
+
         public void CPY(AdressingMode mode, ushort address)
         {
             return;
@@ -533,9 +455,36 @@ namespace NesEmu.Core
             return;
         }
 
+        public void SED(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
         #endregion
 
         #region Storage
+      
+        /// <summary>
+        /// STA (Store Accumulator In Memory) stores the accumulator into a specified memory address. It is probably the second most-used opcode in 6502 assembly as it stores the most-used register. It is similar in function to STX and STY.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void STA(AdressingMode mode, ushort address)
+        {
+            WriteByte(address, A);
+        }
+
+        /// <summary>
+        /// LDA (Load Accumulator With Memory) loads the accumulator with specified memory. It is probably the most-used opcode in 6502 assembly as it loads the most-used register. It is similar in function to LDX and LDY.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void LDA(AdressingMode mode, ushort address)
+        {
+            byte Operand = ReadByte(address);
+            Set_Negative_and_Zero(Operand);
+            A = Operand;
+        }
 
         public void LDY(AdressingMode mode, ushort address)
         {
@@ -567,34 +516,6 @@ namespace NesEmu.Core
             return;
         }
 
-        #endregion
-
-        #region Math
-
-        public void DEY(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-        public void INY(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-
-        public void INX(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-        #endregion
-
-
-        public void SED(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
         public void TXA(AdressingMode mode, ushort address)
         {
             return;
@@ -615,6 +536,81 @@ namespace NesEmu.Core
             return;
         }
 
+        #endregion
+
+        #region Math
+
+        /// <summary>
+        /// Add with carry. Adds Operand to A register, sets Zero, Negative, Carry, Overflow flags
+        /// https://stackoverflow.com/questions/29193303/6502-emulation-proper-way-to-implement-adc-and-sbc
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void ADC(AdressingMode mode, ushort address)
+        {
+            //Decimal mode was cut from NES
+
+            byte Operand = ReadByte(address);
+            int carry = SF.Carry ? 1 : 0;
+
+            byte sum = (byte)(A + Operand + carry);
+            Set_Negative_and_Zero(sum);
+
+            SF.Carry = (A + Operand + carry) > 0xFF;
+            SF.Overflow = (~(A ^ Operand) & (A ^ sum) & 0x80) != 0;
+
+            A = sum;
+
+            //0b1xxx_xxxx       0011
+            //0b0xxx_xxxx       0101
+            //-----------  XOR  ----
+            //0b1xxx_xxxx       0110
+
+            //(A ^ Operand)     (Different)Negative and Positive
+            //~(A ^ Operand)    Same
+
+            //(A ^ sum)         Different
+
+            //0x80=0b1000_0000  Extract the important bit
+        }
+
+        /// <summary>
+        /// Substract with carry. Substracts Operand from A register, sets Zero, Negative, Carry, Overflow flags
+        /// https://stackoverflow.com/questions/29193303/6502-emulation-proper-way-to-implement-adc-and-sbc
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void SBC(AdressingMode mode, ushort address)
+        {
+            //same as ADC with with complement value input
+
+            byte Operand = (byte)~ReadByte(address); //Complement
+            int carry = SF.Carry ? 1 : 0;
+
+            byte sum = (byte)(A + Operand + carry);
+            Set_Negative_and_Zero(sum);
+
+            SF.Carry = (A + Operand + carry) > 0xFF;
+            SF.Overflow = (~(A ^ Operand) & (A ^ sum) & 0x80) != 0;
+
+            A = sum;
+        }
+
+        public void DEY(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void INY(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void INX(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
         public void DEX(AdressingMode mode, ushort address)
         {
             return;
@@ -630,10 +626,16 @@ namespace NesEmu.Core
             return;
         }
 
+        #endregion
+
+        #region Illegal OPCodes
+
         public void ___(AdressingMode mode, ushort address)
         {
             return;
         }
+
+        #endregion
 
         #endregion
     }
