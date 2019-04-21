@@ -199,7 +199,7 @@ namespace NesEmu
             // X
             // 
             this.X.Text = "X";
-            this.X.Width = 53;
+            this.X.Width = 56;
             // 
             // Y
             // 
@@ -298,7 +298,7 @@ namespace NesEmu
             // columnHeader3
             // 
             this.columnHeader3.Text = "Address";
-            this.columnHeader3.Width = 75;
+            this.columnHeader3.Width = 74;
             // 
             // columnHeader4
             // 
@@ -313,6 +313,7 @@ namespace NesEmu
             // openRomFileDialog
             // 
             this.openRomFileDialog.FileName = "sample.nes";
+            this.openRomFileDialog.Filter = "Nes files (*.nes)|*.nes|All files (*.*)|*.*";
             this.openRomFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenFileDialog1_FileOk);
             // 
             // DebugWindow
