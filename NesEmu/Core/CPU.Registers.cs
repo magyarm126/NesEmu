@@ -50,6 +50,23 @@ namespace NesEmu.Core
         public byte Y { get => _Y; set => _Y = value; }
         public byte A { get => _A; set => _A = value; }
 
+        /*
+        
+            7  bit  0
+            ---- ----
+            NVss DIZC
+            |||| ||||
+            |||| |||+- Carry
+            |||| ||+-- Zero
+            |||| |+--- Interrupt Disable
+            |||| +---- Decimal
+            ||++------ No CPU effect, see: the B flag
+            |+-------- Overflow
+            +--------- Negative
+        
+        */
+
+
         /// <summary>
         /// The flags register, also called processor status or just P, is one of the six architectural registers on the 6502 family CPU. It is composed of six one-bit registers; instructions modify one or more bits and leave others unchanged.
         /// </summary>

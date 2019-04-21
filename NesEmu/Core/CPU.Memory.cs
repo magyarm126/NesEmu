@@ -160,9 +160,12 @@ namespace NesEmu.Core
             return ret;
         }
 
-        public bool IsPageCross(ushort oldadr, byte register)
+        public bool IsPageCross(ushort oldadr, ushort/*byte*/ register)
         {
-            ushort newadr = (ushort)(oldadr + (ushort)register);
+           /* ushort newadr = (ushort)(oldadr + (ushort)register);
+            return ((newadr & 0xFF00) != (oldadr & 0xFF00));*/
+
+            ushort newadr = (ushort)(oldadr + register);
             return ((newadr & 0xFF00) != (oldadr & 0xFF00));
         }
 

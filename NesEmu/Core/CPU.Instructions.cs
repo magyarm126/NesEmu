@@ -69,6 +69,8 @@ namespace NesEmu.Core
 
         #region Instructions
 
+        #region Init Instructions
+
         private void SetInstructions()
         {
             _instructions = new Instruction[256]
@@ -193,50 +195,8 @@ namespace NesEmu.Core
             1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0,//F
         };
         }
-
-        public void BRK(AdressingMode mode, ushort address)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// ORA (Or Memory With Accumulator) performs a logical OR on the operand and the accumulator and stores the result in the accumulator. This opcode is similar in function to AND and EOR.
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <param name="address"></param>
-        public void ORA(AdressingMode mode, ushort address)
-        {
-            byte Operand = ReadByte(address);
-            Operand |= A;
-            Set_Negative_and_Zero(Operand);
-            A = Operand;
-        }
-
-        /// <summary>
-        /// EOR (Exclusive OR Memory With Accumulator) performs a logical XOR on the operand and the accumulator and stores the result in the accumulator. This opcode is similar in function to AND and ORA.
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <param name="address"></param>
-        public void EOR(AdressingMode mode, ushort address)
-        {
-            byte Operand = ReadByte(address);
-            Operand ^= A;
-            Set_Negative_and_Zero(Operand);
-            A = Operand;
-        }
-
-        /// <summary>
-        /// Accumulator performs a logical AND on the operand and the accumulator and stores the result in the accumulator. This opcode is similar in function to ORA and EOR.
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <param name="address"></param>
-        public void AND(AdressingMode mode, ushort address)
-        {
-            byte Operand = ReadByte(address);
-            Operand &= A;
-            Set_Negative_and_Zero(Operand);
-            A = Operand;
-        }
+        
+        #endregion
 
         /// <summary>
         /// Add with carry. Adds Operand to A register, sets Zero, Negative, Carry, Overflow flags
@@ -328,8 +288,9 @@ namespace NesEmu.Core
             Set_Negative_and_Zero((byte)(A - Operand));
         }
 
+        #region Jump
 
-        public void BPL(AdressingMode mode, ushort address)
+        public void JMP(AdressingMode mode, ushort address)
         {
             return;
         }
@@ -339,17 +300,7 @@ namespace NesEmu.Core
             return;
         }
 
-        public void BMI(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
         public void RTI(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-        public void BVC(AdressingMode mode, ushort address)
         {
             return;
         }
@@ -359,18 +310,51 @@ namespace NesEmu.Core
             return;
         }
 
+        #endregion
+
+        #region Branches
+
+        /// <summary>
+        /// Branch on PLus
+        /// Branches are dependant on the status of the flag bits when the op code is encountered. A branch not taken requires two machine cycles. Add one if the branch is taken and add one more if the branch crosses a page boundary.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void BPL(AdressingMode mode, ushort address)
+        {
+            if (!SF.Negative)
+            {
+                _cycle += IsPageCross(PC, address) ? 2 : 1;
+                PC = address;
+            }
+        }
+
+        /// <summary>
+        /// Branch on MInus
+        /// Branches are dependant on the status of the flag bits when the op code is encountered. A branch not taken requires two machine cycles. Add one if the branch is taken and add one more if the branch crosses a page boundary.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void BMI(AdressingMode mode, ushort address)
+        {
+            if (SF.Negative)
+            {
+                _cycle += IsPageCross(PC, address) ? 2 : 1;
+                PC = address;
+            }
+        }
+
+        public void BVC(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
         public void BVS(AdressingMode mode, ushort address)
         {
             return;
         }
 
-
         public void BCC(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-        public void LDY(AdressingMode mode, ushort address)
         {
             return;
         }
@@ -380,17 +364,7 @@ namespace NesEmu.Core
             return;
         }
 
-        public void CPY(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
         public void BNE(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-        public void CPX(AdressingMode mode, ushort address)
         {
             return;
         }
@@ -400,19 +374,94 @@ namespace NesEmu.Core
             return;
         }
 
-        public void LDX(AdressingMode mode, ushort address)
+        #endregion
+
+        #region System
+
+        /// <summary>
+        /// When the MOS 6502 processor was modified into the Ricoh 2A03 chip for the NES, the BRK (Force Break) opcode was preserved. As on other 6502 family CPUs, the BRK instruction advances the program counter by 2, pushes the Program Counter Register and processor status register to the stack, sets the Interrupt Flag to temporarily prevent other IRQs from being executed, and reloads the Program Counter from the vector at $FFFE-$FFFF.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void BRK(AdressingMode mode, ushort address)
+        {
+            Push16(PC);
+            Push16(SF.P);
+            SF.Bit5 = true;
+            SF.Bit4 = true;
+            PC = Read16(0xFFFE);
+        }
+
+        public void NOP(AdressingMode mode, ushort address)
         {
             return;
         }
 
-        public void BIT(AdressingMode mode, ushort address)
+        #endregion
+
+        #region Stack
+
+        public void PLP(AdressingMode mode, ushort address)
         {
             return;
         }
 
-        public void STY(AdressingMode mode, ushort address)
+        public void PLA(AdressingMode mode, ushort address)
         {
             return;
+        }
+
+        public void PHP(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void PHA(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        #endregion
+
+        #region Bitwise
+
+        /// <summary>
+        /// Accumulator performs a logical AND on the operand and the accumulator and stores the result in the accumulator. This opcode is similar in function to ORA and EOR.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void AND(AdressingMode mode, ushort address)
+        {
+            byte Operand = ReadByte(address);
+            Operand &= A;
+            Set_Negative_and_Zero(Operand);
+            A = Operand;
+        }
+
+        /// <summary>
+        /// ORA (Or Memory With Accumulator) performs a logical OR on the operand and the accumulator and stores the result in the accumulator. This opcode is similar in function to AND and EOR.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void ORA(AdressingMode mode, ushort address)
+        {
+            byte Operand = ReadByte(address);
+            Operand |= A;
+            Set_Negative_and_Zero(Operand);
+            A = Operand;
+        }
+
+        /// <summary>
+        /// EOR (Exclusive OR Memory With Accumulator) performs a logical XOR on the operand and the accumulator and stores the result in the accumulator. This opcode is similar in function to AND and ORA.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void EOR(AdressingMode mode, ushort address)
+        {
+            byte Operand = ReadByte(address);
+            Operand ^= A;
+            Set_Negative_and_Zero(Operand);
+            A = Operand;
         }
 
         public void ASL(AdressingMode mode, ushort address)
@@ -421,6 +470,11 @@ namespace NesEmu.Core
         }
 
         public void ROL(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void BIT(AdressingMode mode, ushort address)
         {
             return;
         }
@@ -435,22 +489,21 @@ namespace NesEmu.Core
             return;
         }
 
-        public void STX(AdressingMode mode, ushort address)
+        #endregion
+
+        #region Registers
+
+        public void CPY(AdressingMode mode, ushort address)
         {
             return;
         }
 
-        public void PHP(AdressingMode mode, ushort address)
+        public void CPX(AdressingMode mode, ushort address)
         {
             return;
         }
-
+        
         public void CLC(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-        public void PLP(AdressingMode mode, ushort address)
         {
             return;
         }
@@ -460,17 +513,7 @@ namespace NesEmu.Core
             return;
         }
 
-        public void PHA(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
         public void CLI(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-        public void PLA(AdressingMode mode, ushort address)
         {
             return;
         }
@@ -480,7 +523,36 @@ namespace NesEmu.Core
             return;
         }
 
-        public void DEY(AdressingMode mode, ushort address)
+        public void CLV(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void CLD(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        #endregion
+
+        #region Storage
+
+        public void LDY(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void LDX(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void STY(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void STX(AdressingMode mode, ushort address)
         {
             return;
         }
@@ -495,7 +567,11 @@ namespace NesEmu.Core
             return;
         }
 
-        public void CLV(AdressingMode mode, ushort address)
+        #endregion
+
+        #region Math
+
+        public void DEY(AdressingMode mode, ushort address)
         {
             return;
         }
@@ -505,15 +581,14 @@ namespace NesEmu.Core
             return;
         }
 
-        public void CLD(AdressingMode mode, ushort address)
-        {
-            return;
-        }
 
         public void INX(AdressingMode mode, ushort address)
         {
             return;
         }
+
+        #endregion
+
 
         public void SED(AdressingMode mode, ushort address)
         {
@@ -541,17 +616,6 @@ namespace NesEmu.Core
         }
 
         public void DEX(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-        public void NOP(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-
-        public void JMP(AdressingMode mode, ushort address)
         {
             return;
         }
