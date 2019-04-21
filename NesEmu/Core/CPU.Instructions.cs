@@ -74,43 +74,43 @@ namespace NesEmu.Core
             _instructions = new Instruction[256]
             {
                 //0,   1,   2,   3,   4,   5,   6,   7,   8,   9,   A,   B,   C,   D,   E,   F
-                BRK, ORA, ___, ___, ___, ORA, ASL, ___, ___, ORA, ASL, ___, ___, ORA, ASL, ___,//0
-                ___, ORA, ___, ___, ___, ORA, ASL, ___, ___, ORA, ___, ___, ___, ORA, ASL, ___,//1
-                ___, AND, ___, ___, ___, AND, ROL, ___, ___, AND, ROL, ___, ___, AND, ROL, ___,//2
-                ___, AND, ___, ___, ___, AND, ROL, ___, ___, AND, ___, ___, ___, AND, ROL, ___,//3
-                ___, EOR, ___, ___, ___, EOR, LSR, ___, ___, EOR, LSR, ___, ___, EOR, LSR, ___,//4
-                ___, EOR, ___, ___, ___, EOR, LSR, ___, ___, EOR, ___, ___, ___, EOR, LSR, ___,//5
-                ___, ADC, ___, ___, ___, ADC, ROR, ___, ___, ADC, ROR, ___, ___, ADC, ROR, ___,//6
-                ___, ADC, ___, ___, ___, ADC, ROR, ___, ___, ADC, ___, ___, ___, ADC, ROR, ___,//7
-                ___, STA, ___, ___, ___, STA, STX, ___, ___, STA, ___, ___, ___, STA, STX, ___,//8
-                ___, STA, ___, ___, ___, STA, STX, ___, ___, STA, ___, ___, ___, STA, ___, ___,//9
-                ___, LDA, LDX, ___, ___, LDA, LDX, ___, ___, LDA, ___, ___, ___, LDA, LDX, ___,//A
-                ___, LDA, ___, ___, ___, LDA, LDX, ___, ___, LDA, ___, ___, ___, LDA, LDX, ___,//B
-                ___, CMP, ___, ___, ___, CMP, DEC, ___, ___, CMP, ___, ___, ___, CMP, DEC, ___,//C
-                ___, CMP, ___, ___, ___, CMP, DEC, ___, ___, CMP, ___, ___, ___, CMP, DEC, ___,//D
-                ___, SBC, ___, ___, ___, SBC, INC, ___, ___, SBC, ___, ___, ___, SBC, INC, ___,//E
-                ___, SBC, ___, ___, ___, SBC, INC, ___, ___, SBC, ___, ___, ___, SBC, INC, ___,//F
+                BRK, ORA, ___, ___, ___, ORA, ASL, ___, PHP, ORA, ASL, ___, ___, ORA, ASL, ___,//0
+                BPL, ORA, ___, ___, ___, ORA, ASL, ___, CLC, ORA, ___, ___, ___, ORA, ASL, ___,//1
+                JSR, AND, ___, ___, BIT, AND, ROL, ___, PLP, AND, ROL, ___, BIT, AND, ROL, ___,//2
+                BMI, AND, ___, ___, ___, AND, ROL, ___, SEC, AND, ___, ___, ___, AND, ROL, ___,//3
+                RTI, EOR, ___, ___, ___, EOR, LSR, ___, PHA, EOR, LSR, ___, JMP, EOR, LSR, ___,//4
+                BVC, EOR, ___, ___, ___, EOR, LSR, ___, CLI, EOR, ___, ___, ___, EOR, LSR, ___,//5
+                RTS, ADC, ___, ___, ___, ADC, ROR, ___, PLA, ADC, ROR, ___, JMP, ADC, ROR, ___,//6
+                BVS, ADC, ___, ___, ___, ADC, ROR, ___, SEI, ADC, ___, ___, ___, ADC, ROR, ___,//7
+                ___, STA, ___, ___, STY, STA, STX, ___, DEY, STA, TXA, ___, STY, STA, STX, ___,//8
+                BCC, STA, ___, ___, STY, STA, STX, ___, TYA, STA, TXS, ___, ___, STA, ___, ___,//9
+                LDY, LDA, LDX, ___, LDY, LDA, LDX, ___, TAY, LDA, TAX, ___, LDY, LDA, LDX, ___,//A
+                BCS, LDA, ___, ___, LDY, LDA, LDX, ___, CLV, LDA, TSX, ___, LDY, LDA, LDX, ___,//B
+                CPY, CMP, ___, ___, CPY, CMP, DEC, ___, INY, CMP, DEX, ___, CPY, CMP, DEC, ___,//C
+                BNE, CMP, ___, ___, ___, CMP, DEC, ___, CLD, CMP, ___, ___, ___, CMP, DEC, ___,//D
+                CPX, SBC, ___, ___, CPX, SBC, INC, ___, INX, SBC, NOP, ___, CPX, SBC, INC, ___,//E
+                BEQ, SBC, ___, ___, ___, SBC, INC, ___, SED, SBC, ___, ___, ___, SBC, INC, ___,//F
             };
 
             _instruction_names = new String[256]
 {
                 //0,     1,     2,     3,     4,     5,     6,     7,     8,     9,     A,     B,     C,     D,     E,     F
-                "BRK", "ORA", "___", "___", "___", "ORA", "ASL", "___", "___", "ORA", "ASL", "___", "___", "ORA", "ASL", "___",//0
-                "___", "ORA", "___", "___", "___", "ORA", "ASL", "___", "___", "ORA", "___", "___", "___", "ORA", "ASL", "___",//1
-                "___", "AND", "___", "___", "___", "AND", "ROL", "___", "___", "AND", "ROL", "___", "___", "AND", "ROL", "___",//2
-                "___", "AND", "___", "___", "___", "AND", "ROL", "___", "___", "AND", "___", "___", "___", "AND", "ROL", "___",//3
-                "___", "EOR", "___", "___", "___", "EOR", "LSR", "___", "___", "EOR", "LSR", "___", "___", "EOR", "LSR", "___",//4
-                "___", "EOR", "___", "___", "___", "EOR", "LSR", "___", "___", "EOR", "___", "___", "___", "EOR", "LSR", "___",//5
-                "___", "ADC", "___", "___", "___", "ADC", "ROR", "___", "___", "ADC", "ROR", "___", "___", "ADC", "ROR", "___",//6
-                "___", "ADC", "___", "___", "___", "ADC", "ROR", "___", "___", "ADC", "___", "___", "___", "ADC", "ROR", "___",//7
-                "___", "STA", "___", "___", "___", "STA", "STX", "___", "___", "STA", "___", "___", "___", "STA", "STX", "___",//8
-                "___", "STA", "___", "___", "___", "STA", "STX", "___", "___", "STA", "___", "___", "___", "STA", "___", "___",//9
-                "___", "LDA", "LDX", "___", "___", "LDA", "LDX", "___", "___", "LDA", "___", "___", "___", "LDA", "LDX", "___",//A
-                "___", "LDA", "___", "___", "___", "LDA", "LDX", "___", "___", "LDA", "___", "___", "___", "LDA", "LDX", "___",//B
-                "___", "CMP", "___", "___", "___", "CMP", "DEC", "___", "___", "CMP", "___", "___", "___", "CMP", "DEC", "___",//C
-                "___", "CMP", "___", "___", "___", "CMP", "DEC", "___", "___", "CMP", "___", "___", "___", "CMP", "DEC", "___",//D
-                "___", "SBC", "___", "___", "___", "SBC", "INC", "___", "___", "SBC", "___", "___", "___", "SBC", "INC", "___",//E
-                "___", "SBC", "___", "___", "___", "SBC", "INC", "___", "___", "SBC", "___", "___", "___", "SBC", "INC", "___",//F
+                "BRK", "ORA", "___", "___", "___", "ORA", "ASL", "___", "PHP", "ORA", "ASL", "___", "___", "ORA", "ASL", "___",//0
+                "BPL", "ORA", "___", "___", "___", "ORA", "ASL", "___", "CLC", "ORA", "___", "___", "___", "ORA", "ASL", "___",//1
+                "JSR", "AND", "___", "___", "BIT", "AND", "ROL", "___", "PLP", "AND", "ROL", "___", "BIT", "AND", "ROL", "___",//2
+                "BMI", "AND", "___", "___", "___", "AND", "ROL", "___", "SEC", "AND", "___", "___", "___", "AND", "ROL", "___",//3
+                "RTI", "EOR", "___", "___", "___", "EOR", "LSR", "___", "PHA", "EOR", "LSR", "___", "JMP", "EOR", "LSR", "___",//4
+                "BVC", "EOR", "___", "___", "___", "EOR", "LSR", "___", "CLI", "EOR", "___", "___", "___", "EOR", "LSR", "___",//5
+                "RTS", "ADC", "___", "___", "___", "ADC", "ROR", "___", "PLA", "ADC", "ROR", "___", "JMP", "ADC", "ROR", "___",//6
+                "BVS", "ADC", "___", "___", "___", "ADC", "ROR", "___", "SEI", "ADC", "___", "___", "___", "ADC", "ROR", "___",//7
+                "___", "STA", "___", "___", "STY", "STA", "STX", "___", "DEY", "STA", "TXA", "___", "STY", "STA", "STX", "___",//8
+                "BCC", "STA", "___", "___", "STY", "STA", "STX", "___", "TYA", "STA", "TXS", "___", "___", "STA", "___", "___",//9
+                "LDY", "LDA", "LDX", "___", "LDY", "LDA", "LDX", "___", "TAY", "LDA", "TAX", "___", "LDY", "LDA", "LDX", "___",//A
+                "BCS", "LDA", "___", "___", "LDY", "LDA", "LDX", "___", "CLV", "LDA", "TSX", "___", "LDY", "LDA", "LDX", "___",//B
+                "CPY", "CMP", "___", "___", "CPY", "CMP", "DEC", "___", "INY", "CMP", "DEX", "___", "CPY", "CMP", "DEC", "___",//C
+                "BNE", "CMP", "___", "___", "___", "CMP", "DEC", "___", "CLD", "CMP", "___", "___", "___", "CMP", "DEC", "___",//D
+                "CPX", "SBC", "___", "___", "CPX", "SBC", "INC", "___", "INX", "SBC", "NOP", "___", "CPX", "SBC", "INC", "___",//E
+                "BEQ", "SBC", "___", "___", "___", "SBC", "INC", "___", "SED", "SBC", "___", "___", "___", "SBC", "INC", "___",//F
 };
 
             _addressModes = new int[256]{
@@ -329,6 +329,92 @@ namespace NesEmu.Core
         }
 
 
+        public void BPL(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void JSR(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void BMI(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void RTI(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void BVC(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void RTS(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void BVS(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+
+        public void BCC(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void LDY(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void BCS(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void CPY(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void BNE(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void CPX(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void BEQ(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void LDX(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void BIT(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void STY(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
         public void ASL(AdressingMode mode, ushort address)
         {
             return;
@@ -354,7 +440,118 @@ namespace NesEmu.Core
             return;
         }
 
-        public void LDX(AdressingMode mode, ushort address)
+        public void PHP(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void CLC(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void PLP(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void SEC(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void PHA(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void CLI(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void PLA(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void SEI(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void DEY(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void TYA(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void TAY(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void CLV(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void INY(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void CLD(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void INX(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void SED(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void TXA(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void TXS(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void TAX(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void TSX(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void DEX(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void NOP(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+
+        public void JMP(AdressingMode mode, ushort address)
         {
             return;
         }
@@ -363,7 +560,6 @@ namespace NesEmu.Core
         {
             return;
         }
-
 
         public void INC(AdressingMode mode, ushort address)
         {
@@ -374,6 +570,7 @@ namespace NesEmu.Core
         {
             return;
         }
+
         #endregion
     }
 }
