@@ -371,33 +371,67 @@ namespace NesEmu.Core
             PC = Read16(0xFFFE);
         }
 
+        /// <summary>
+        /// NOP - No Operation
+        /// The NOP instruction causes no changes to the processor other than the normal incrementing of the program counter to the next instruction.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void NOP(AdressingMode mode, ushort address)
         {
-            return;
+            //Do nothing
         }
 
         #endregion
 
         #region Stack
 
+        /// <summary>
+        /// PLP - Pull Processor Status
+        /// Pulls an 8 bit value from the stack and into the processor flags. The flags will take on new states as determined by the value pulled.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void PLP(AdressingMode mode, ushort address)
         {
-            return;
+            SF.P = PopByte(); //Maybe wrong
+            //SF.P = (byte)(status & 0b1110_1111); //Set all except bit 4
         }
 
+        /// <summary>
+        /// PLA - Pull Accumulator
+        /// Pulls an 8 bit value from the stack and into the accumulator. The zero and negative flags are set as appropriate.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void PLA(AdressingMode mode, ushort address)
         {
-            return;
+            byte Operand = PopByte();
+            Set_Negative_and_Zero(Operand);
+            A = Operand;
+            
         }
 
+        /// <summary>
+        /// PHP - Push Processor Status
+        /// Pushes a copy of the status flags on to the stack.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void PHP(AdressingMode mode, ushort address)
         {
-            return;
+            PushByte(SF.P); //maybe | 0x10;
         }
 
+        /// <summary>
+        /// PHA - Push Accumulator
+        /// Pushes a copy of the accumulator on to the stack.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void PHA(AdressingMode mode, ushort address)
         {
-            return;
+            PushByte(A);
         }
 
         #endregion
