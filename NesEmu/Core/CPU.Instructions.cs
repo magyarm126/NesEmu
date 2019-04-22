@@ -578,6 +578,26 @@ namespace NesEmu.Core
         }
 
         /// <summary>
+        /// STY (Store Y Index In Memory) stores the Y index into a specified memory address. It is similar in function to STA and STY.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void STY(AdressingMode mode, ushort address)
+        {
+            WriteByte(address, Y);
+        }
+
+        /// <summary>
+        /// STX (Store X Index In Memory) stores the X index into a specified memory address. It is similar in function to STA and STY.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void STX(AdressingMode mode, ushort address)
+        {
+            WriteByte(address, X);
+        }
+
+        /// <summary>
         /// LDA (Load Accumulator With Memory) loads the accumulator with specified memory. It is probably the most-used opcode in 6502 assembly as it loads the most-used register. It is similar in function to LDX and LDY.
         /// </summary>
         /// <param name="mode"></param>
@@ -589,54 +609,94 @@ namespace NesEmu.Core
             A = Operand;
         }
 
+        /// <summary>
+        /// LDY (Load Y Index With Memory) loads the Y Index Register with the specified memory. It is similar in function to LDA and LDX opcodes. Unlike LDA, there aren't as many addressing modes available for LDY.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void LDY(AdressingMode mode, ushort address)
         {
-            return;
+            byte Operand = ReadByte(address);
+            Set_Negative_and_Zero(Operand);
+            Y = Operand;
         }
 
+        /// <summary>
+        /// LDX (Load X Index With Memory) loads the X Index Register with the specified memory. It is similar in function to LDA and LDY opcodes. Unlike LDA, there aren't as many addressing modes available for LDX.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void LDX(AdressingMode mode, ushort address)
         {
-            return;
+            byte Operand = ReadByte(address);
+            Set_Negative_and_Zero(Operand);
+            X = Operand;
         }
 
-        public void STY(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-        public void STX(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
+        /// <summary>
+        /// TYA (Transfer Y Index to Accumulator) transfers the value in the Y index to the accumulator. The reverse of this opcode is TAY.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void TYA(AdressingMode mode, ushort address)
         {
-            return;
+            A = Y;
+            Set_Negative_and_Zero(A);
         }
 
+        /// <summary>
+        /// TAY (Transfer Accumulator to Y Index) transfers the value in the accumulator to the Y index. The reverse of this opcode is TYA.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void TAY(AdressingMode mode, ushort address)
         {
-            return;
+            Y = A;
+            Set_Negative_and_Zero(Y);
         }
 
+        /// <summary>
+        /// TXA (Transfer X Index to Accumulator) transfers the value in the X index to the accumulator. The reverse of this opcode is TAX.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void TXA(AdressingMode mode, ushort address)
         {
-            return;
+            A = X;
+            Set_Negative_and_Zero(A);
         }
 
-        public void TXS(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
+        /// <summary>
+        /// TAX (Transfer Accumulator to X Index) transfers the value in the accumulator to the X index. The reverse of this opcode is TXA.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void TAX(AdressingMode mode, ushort address)
         {
-            return;
+            X = A;
+            Set_Negative_and_Zero(X);
         }
 
+        /// <summary>
+        /// TSX (Transfer Stack Pointer to X Index) transfers the value in the stack pointer to the X index. The reverse of this opcode is TXS.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void TSX(AdressingMode mode, ushort address)
         {
-            return;
+            X = S;
+            Set_Negative_and_Zero(X);
+        }
+
+        /// <summary>
+        /// TXS (Transfer X Index to Stack Pointer) transfers the value in the X index to the stack pointer. The reverse of this opcode is TSX.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void TXS(AdressingMode mode, ushort address)
+        {
+            S = X;
+            Set_Negative_and_Zero(S);
         }
 
         #endregion
