@@ -699,34 +699,85 @@ namespace NesEmu.Core
             A = sum;
         }
 
-        public void DEY(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-        public void INY(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
-        public void INX(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
+        /// <summary>
+        /// DEX - Decrement X Register
+        /// X,Z,N = X-1
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void DEX(AdressingMode mode, ushort address)
         {
-            return;
+            X--;
+            Set_Negative_and_Zero(X);
         }
 
+        /// <summary>
+        /// DEY - Decrement Y Register
+        /// Y,Z,N = Y-1
+        /// Subtracts one from the Y register setting the zero and negative flags as appropriate.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void DEY(AdressingMode mode, ushort address)
+        {
+            Y--;
+            Set_Negative_and_Zero(Y);
+        }
+
+        /// <summary>
+        /// DEC - Decrement Memory
+        /// M,Z,N = M-1
+        /// Subtracts one from the value held at a specified memory location setting the zero and negative flags as appropriate.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void DEC(AdressingMode mode, ushort address)
         {
-            return;
+            var tmp = ReadByte(address);
+            tmp--;
+            Set_Negative_and_Zero(tmp);
+            WriteByte(address, tmp);
         }
 
+        /// <summary>
+        /// INY - Increment Y Register
+        /// Y,Z,N = Y+1
+        /// Adds one to the Y register setting the zero and negative flags as appropriate.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void INY(AdressingMode mode, ushort address)
+        {
+            Y++;
+            Set_Negative_and_Zero(Y);
+        }
+
+        /// <summary>
+        /// INX - Increment X Register
+        /// X,Z,N = X+1
+        /// Adds one to the X register setting the zero and negative flags as appropriate.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
+        public void INX(AdressingMode mode, ushort address)
+        {
+            X++;
+            Set_Negative_and_Zero(X);
+        }
+
+        /// <summary>
+        /// INC - Increment Memory
+        /// M,Z,N = M+1
+        /// Adds one to the value held at a specified memory location setting the zero and negative flags as appropriate.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void INC(AdressingMode mode, ushort address)
         {
-            return;
+            var tmp = ReadByte(address);
+            tmp++;
+            Set_Negative_and_Zero(tmp);
+            WriteByte(address, tmp);
         }
 
         #endregion
