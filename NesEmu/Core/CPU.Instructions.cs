@@ -518,49 +518,102 @@ namespace NesEmu.Core
             Set_Negative_and_Zero((byte)(A - Operand));
         }
 
+        /// <summary>
+        /// CPY - Compare Y Register
+        /// Z,C,N = Y-M
+        /// This instruction compares the contents of the Y register with another memory held value and sets the zero and carry flags as appropriate.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void CPY(AdressingMode mode, ushort address)
         {
-            return;
+            byte Operand = ReadByte(address);
+            SF.Carry = Y >= Operand;
+            Set_Negative_and_Zero((byte)(Y - Operand));
         }
 
+        /// <summary>
+        /// CPX - Compare X Register
+        /// Z,C,N = X-M
+        /// This instruction compares the contents of the X register with another memory held value and sets the zero and carry flags as appropriate.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void CPX(AdressingMode mode, ushort address)
         {
-            return;
+            byte Operand = ReadByte(address);
+            SF.Carry = X >= Operand;
+            Set_Negative_and_Zero((byte)(X - Operand));
         }
-        
+
+        /// <summary>
+        /// CLC (Clear Carry Flag) clears the Carry Flag in the Processor Status Register by setting the 0th bit 0. To set the carry flag, use SEC. Clearing the carry flag should be done prior to any instruction that might set it where you might need to read the carry flag's value after the instruction.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void CLC(AdressingMode mode, ushort address)
         {
-            return;
+            SF.Carry = false;
         }
 
+        /// <summary>
+        /// SEC (Set Carry Flag) sets the Carry Flag in the Processor Status Register by setting the 0th bit 1. To clear the carry flag, use CLC.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void SEC(AdressingMode mode, ushort address)
         {
-            return;
+            SF.Carry = true;
         }
 
+        /// <summary>
+        /// CLI (Clear Interrupt Disable Flag) clears the Interrupt Flag in the Processor Status Register by setting the 2nd bit 0. To set the interrupt disable flag, use SEI.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void CLI(AdressingMode mode, ushort address)
         {
-            return;
+            SF.Interrupt_Disable = false;
         }
 
+        /// <summary>
+        /// SEI (Set Interrupt Disable Flag) sets the Interrupt Flag in the Processor Status Register by setting the 2nd bit 1. To clear the interrupt disable flag, use CLI.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void SEI(AdressingMode mode, ushort address)
         {
-            return;
+            SF.Interrupt_Disable = true;
         }
 
+        /// <summary>
+        /// CLV (Clear Overflow Flag) clears the Overflow Flag in the Processor Status Register by setting the 6th bit 0. There is no opcode for setting the overflow flag.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void CLV(AdressingMode mode, ushort address)
         {
-            return;
+            SF.Overflow = false;
         }
 
+        /// <summary>
+        /// CLD (Clear Decimal Flag) clears the Decimal Flag in the Processor Status Register by setting the 3rd bit 0. To set the decimal flag, use SED. Even though the NES doesn't use decimal mode, the opcodes to clear and set the flag do work, so if you need to store a bit, this acts as a free space.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void CLD(AdressingMode mode, ushort address)
         {
-            return;
+            SF.Decimal = false;
         }
 
+        /// <summary>
+        /// SED (Set Decimal Flag) set the Decimal Flag in the Processor Status Register by setting the 3rd bit 1. To clear the decimal flag, use CLD. Even though the NES doesn't use decimal mode, the opcodes to clear and set the flag do work, so if you need to store a bit, this acts as a free space.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void SED(AdressingMode mode, ushort address)
         {
-            return;
+            SF.Decimal = true;
         }
 
         #endregion
