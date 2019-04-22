@@ -42,6 +42,17 @@ namespace NesEmu.Core
         #region InstructionHelperFunctions
 
         /// <summary>
+        /// Sets/Clears overflow flag based on bit 6
+        /// </summary>
+        /// <param name="Operand"></param>
+        private void SetOverflow(byte value)
+        {
+            SF.Negative = ((value >> 6) & 1) == 1;
+            //0bx1xx_xxxx true
+            //0bx0xx_xxxx false
+        }
+
+        /// <summary>
         /// Clears the Negative Flag if the Operand is $#00-7F, otherwise sets it.
         /// </summary>
         /// <param name="Operand"></param>
@@ -479,19 +490,42 @@ namespace NesEmu.Core
             A = Operand;
         }
 
+        /// <summary>
+        /// ASL (Arithmetic Shift Left)
+        /// ASL shifts all bits left one position. 0 is shifted into bit 0 and the original bit 7 is shifted into the Carry.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void ASL(AdressingMode mode, ushort address)
         {
-            return;
+            if(mode == AdressingMode.Accumulator)
+            {
+                SF.Carry = (A & 0b0100_0000) != 0; //overflow goes bit 7 instead of wrap around
+                A <<= 1;
+                Set_Negative_and_Zero(A);
+            }
+            else
+            {
+                byte value = ReadByte(address);
+                SF.Carry = (value & 0b0100_0000) != 0; //overflow goes bit 7 instead of wrap around
+                value <<= 1;
+                Set_Negative_and_Zero(value);
+                WriteByte(address, value);
+            }
+
         }
 
-        public void ROL(AdressingMode mode, ushort address)
-        {
-            return;
-        }
-
+        /// <summary>
+        /// BIT sets the Z flag as though the value in the address tested were ANDed with the accumulator. The S and V flags are set to match bits 7 and 6 respectively in the value stored at the tested address.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void BIT(AdressingMode mode, ushort address)
         {
-            return;
+            byte value = ReadByte(address);
+            SetNegative(value);
+            SetOverflow(value);
+            SetZero((byte)(value & A));
         }
 
         public void LSR(AdressingMode mode, ushort address)
@@ -500,6 +534,11 @@ namespace NesEmu.Core
         }
 
         public void ROR(AdressingMode mode, ushort address)
+        {
+            return;
+        }
+
+        public void ROL(AdressingMode mode, ushort address)
         {
             return;
         }
