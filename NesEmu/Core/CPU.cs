@@ -57,7 +57,7 @@ namespace NesEmu.Core
 
             int startcycle = _cycle;
 
-            var currentOpCode = ReadByte(PC);
+            currentOpCode = ReadByte(PC);
 
             AdressingMode currentAddressMode = GetAdressingMode(currentOpCode);
 

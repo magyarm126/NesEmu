@@ -64,18 +64,18 @@ namespace NesEmu
 
         private void _cpu_UIChanged(object sender, EventArgs e)
         {
-            if (sender is Core.CPU)
+            if (sender is Core.CPU tmp)
             {
-                Core.CPU tmp = (Core.CPU)sender;
                 Cpu_Log_listView2.BeginUpdate();
                 Cpu_Log_listView2.Items.Insert(0, new ListViewItem(
                     new string[] {
                         tmp.X.ToString("X2"),
                         tmp.Y.ToString("X2"),
                         tmp.A.ToString("X2"),
+                        Convert.ToString( tmp.P, 2),
                         tmp.S.ToString("X2"),
                         tmp.PC.ToString("X2"),
-                        Convert.ToString( tmp.P, 2),
+                        tmp.GetOpCodeName(tmp.currentOpCode),
                     }));
                 Cpu_Log_listView2.EndUpdate();
             }

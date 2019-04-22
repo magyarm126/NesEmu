@@ -25,6 +25,8 @@ namespace NesEmu.Core
         private int[] _addressModes, _instructionSizes, _instructionCycles, _instructionPageCycles;
         private int _cycle; //cycle counter
 
+        public byte currentOpCode { get; set; }
+
         public delegate void Instruction(AdressingMode mode, ushort address);
 
         public void ExecuteOpCode(byte opcode, AdressingMode mode, ushort address)

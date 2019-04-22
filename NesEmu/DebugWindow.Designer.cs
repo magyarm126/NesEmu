@@ -47,9 +47,10 @@ namespace NesEmu
             this.X = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Y = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.A = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.P = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.S = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.P = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Command = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.Stack_listView3 = new System.Windows.Forms.ListView();
@@ -184,9 +185,10 @@ namespace NesEmu
             this.X,
             this.Y,
             this.A,
+            this.P,
             this.S,
             this.pc,
-            this.P});
+            this.Command});
             this.Cpu_Log_listView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Cpu_Log_listView2.GridLines = true;
             this.Cpu_Log_listView2.Location = new System.Drawing.Point(3, 16);
@@ -209,25 +211,27 @@ namespace NesEmu
             // A
             // 
             this.A.Text = "A";
-            this.A.Width = 68;
-            // 
-            // S
-            // 
-            this.S.DisplayIndex = 4;
-            this.S.Text = "Stack pointer";
-            this.S.Width = 104;
-            // 
-            // pc
-            // 
-            this.pc.DisplayIndex = 5;
-            this.pc.Text = "Program Counter";
-            this.pc.Width = 115;
+            this.A.Width = 43;
             // 
             // P
             // 
-            this.P.DisplayIndex = 3;
             this.P.Text = "Status Flag";
-            this.P.Width = 134;
+            this.P.Width = 84;
+            // 
+            // S
+            // 
+            this.S.Text = "Stack pointer";
+            this.S.Width = 96;
+            // 
+            // pc
+            // 
+            this.pc.Text = "Program Counter";
+            this.pc.Width = 105;
+            // 
+            // Command
+            // 
+            this.Command.Text = "Last instruction";
+            this.Command.Width = 102;
             // 
             // groupBox4
             // 
@@ -370,6 +374,7 @@ namespace NesEmu
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.OpenFileDialog openRomFileDialog;
         private System.Windows.Forms.Button Timer_start_stop_button;
+        private System.Windows.Forms.ColumnHeader Command;
     }
 }
 
