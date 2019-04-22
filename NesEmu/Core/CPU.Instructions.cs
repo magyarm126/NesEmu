@@ -199,29 +199,55 @@ namespace NesEmu.Core
                 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0,//F
             };
         }
-        
+
         #endregion
 
         #region Jump
 
+        /// <summary>
+        /// JMP - Jump
+        /// Sets the program counter to the address specified by the operand.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void JMP(AdressingMode mode, ushort address)
         {
-            return;
+            PC = address;
         }
 
+        /// <summary>
+        /// JSR - Jump to Subroutine
+        /// The JSR instruction pushes the address (minus one) of the return point on to the stack and then sets the program counter to the target memory address.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void JSR(AdressingMode mode, ushort address)
         {
-            return;
+            Push16((ushort)(PC - 1));
+            PC = address;
         }
 
+        /// <summary>
+        /// RTI - Return from Interrupt
+        /// The RTI instruction is used at the end of an interrupt processing routine.It pulls the processor flags from the stack followed by the program counter.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void RTI(AdressingMode mode, ushort address)
         {
-            return;
+            SF.P= PopByte();
+            PC = Pop16();
         }
 
+        /// <summary>
+        /// RTS - Return from Subroutine
+        /// The RTS instruction is used at the end of a subroutine to return to the calling routine. It pulls the program counter (minus one) from the stack.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void RTS(AdressingMode mode, ushort address)
         {
-            return;
+            PC = (ushort)(Pop16() + 1);
         }
 
         #endregion
