@@ -64,6 +64,10 @@ namespace NesEmu.Core
             ushort currentAddress = 0;
             bool pageCrossed = false;
 
+            //deb
+            lastOpCode = currentOpCode;
+            OnUIChanged();
+
             AddressResolver(ref currentAddressMode, ref currentAddress, ref pageCrossed);
 
             PC += (ushort)_instructionSizes[currentOpCode];
@@ -72,9 +76,8 @@ namespace NesEmu.Core
             {
                 _cycle += _instructionPageCycles[currentOpCode];
             }
-            ExecuteOpCode(currentOpCode, currentAddressMode, currentAddress);
 
-            OnUIChanged();
+            ExecuteOpCode(currentOpCode, currentAddressMode, currentAddress);
 
             return _cycle;
         }
@@ -86,11 +89,19 @@ namespace NesEmu.Core
             P = 0x24; //Set flags (Originally P = $34)
             A = X = Y = 0;
             S = 0xFD; //Stack pointer
-            PC = Read16(0xFFFC);
-
+            //PC = Read16(0xFFFC);
             _cycle = 0;
 
-            OnUIChanged();
+
+
+            //debug
+            PC = 0xC000;
+            _cycle = 7;
+            //C000  4C F5 C5 JMP $C5F5 A:00 X: 00 Y: 00 P: 24 SP: FD PPU:  0,  0 CYC: 7
+            //http://www.qmtpro.com/~nes/misc/nestest.log
+
+
+            //OnUIChanged();
         }
     }
 }

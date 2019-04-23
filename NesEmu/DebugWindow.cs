@@ -67,17 +67,28 @@ namespace NesEmu
             if (sender is Core.CPU tmp)
             {
                 Cpu_Log_listView2.BeginUpdate();
-                Cpu_Log_listView2.Items.Insert(0, new ListViewItem(
+                Cpu_Log_listView2.Items.Add(new ListViewItem(
                     new string[] {
+                        tmp.A.ToString("X2"),
                         tmp.X.ToString("X2"),
                         tmp.Y.ToString("X2"),
-                        tmp.A.ToString("X2"),
-                        Convert.ToString( tmp.P, 2),
+                        tmp.P.ToString("X2"),
                         tmp.S.ToString("X2"),
                         tmp.PC.ToString("X2"),
-                        tmp.GetOpCodeName(tmp.currentOpCode),
+                        tmp.GetOpCodeName(tmp.lastOpCode)+ ", "+ tmp._cycle,
                     }));
                 Cpu_Log_listView2.EndUpdate();
+                /* Cpu_Log_listView2.Items.Insert(0, new ListViewItem(
+                     new string[] {
+                         tmp.A.ToString("X2"),
+                         tmp.X.ToString("X2"),
+                         tmp.Y.ToString("X2"),
+                         Convert.ToString( tmp.P, 2),
+                         tmp.S.ToString("X2"),
+                         tmp.PC.ToString("X2"),
+                         tmp.GetOpCodeName(tmp.currentOpCode),
+                     }));
+                 Cpu_Log_listView2.EndUpdate();*/
             }
             else
             {

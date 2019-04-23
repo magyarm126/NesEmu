@@ -6,26 +6,15 @@ using System.Threading.Tasks;
 
 namespace NesEmu.Core
 {
-    public class OPCODE
-    {
-        //http://www.oxyron.de/html/opcodes02.html
-        //http://www.thealmightyguru.com/Games/Hacking/Wiki/index.php/6502_Opcodes
-
-        public byte _opcode;
-        public AdressingMode _adressingmode;
-        public int _cycles;
-
-        public bool _pageboundarycrossed;
-    }
-
     public partial class CPU
     {
         private Instruction[] _instructions;
         private string[] _instruction_names;
         private int[] _addressModes, _instructionSizes, _instructionCycles, _instructionPageCycles;
-        private int _cycle; //cycle counter
+        public int _cycle { get; set; } //cycle counter
 
         public byte currentOpCode { get; set; }
+        public byte lastOpCode { get; set; }
 
         public delegate void Instruction(AdressingMode mode, ushort address);
 

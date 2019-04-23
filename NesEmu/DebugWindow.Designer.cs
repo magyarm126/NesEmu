@@ -182,9 +182,9 @@ namespace NesEmu
             // Cpu_Log_listView2
             // 
             this.Cpu_Log_listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.A,
             this.X,
             this.Y,
-            this.A,
             this.P,
             this.S,
             this.pc,

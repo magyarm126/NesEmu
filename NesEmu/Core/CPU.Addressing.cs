@@ -58,16 +58,18 @@ namespace NesEmu.Core
                 //STA $3000,X     ;Store accumulator between $3000 and $30FF
                 case AdressingMode.AbsoluteX:
                     oldAddress = Read16((ushort)(PC + 1));
-                    pageCrossed = IsPageCross(oldAddress, X);
+                    //pageCrossed = IsPageCross(oldAddress, X);
                     currentAddress = (ushort)(oldAddress + X);
+                    pageCrossed = IsPageCross(oldAddress, currentAddress);
                     break;
 
                 //Operand is 16bit + 8bit from X
                 //AND $4000,Y     ;Perform a logical AND with a $40??
                 case AdressingMode.AbsoluteY:
                     oldAddress = Read16((ushort)(PC + 1));
-                    pageCrossed = IsPageCross(oldAddress, Y);
+                    //pageCrossed = IsPageCross(oldAddress, Y);
                     currentAddress = (ushort)(oldAddress + Y);
+                    pageCrossed = IsPageCross(oldAddress, currentAddress);
                     break;
 
                 //No operands, woks on the Accumulator
@@ -121,8 +123,9 @@ namespace NesEmu.Core
 
                     // Target address (Must wrap to 0x00 if at 0xFF)
                     oldAddress = Read16WrapPageAround(valueAddress);
-                    pageCrossed = IsPageCross((ushort)(oldAddress + Y), Y);
+                    //pageCrossed = IsPageCross((ushort)(oldAddress + Y), Y);
                     currentAddress = (ushort)(oldAddress + Y);
+                    pageCrossed = IsPageCross(oldAddress, currentAddress);
                     break;
             }
         }
