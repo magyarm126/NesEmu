@@ -500,14 +500,14 @@ namespace NesEmu.Core
         {
             if(mode == AdressingMode.Accumulator)
             {
-                SF.Carry = (A & 0b0100_0000) != 0; //overflow goes bit 7 instead of wrap around
+                SF.Carry = (A & 0b1000_0000) != 0; //overflow goes to carry from bit 7 instead of wrap around
                 A <<= 1;
                 Set_Negative_and_Zero(A);
             }
             else
             {
                 byte value = ReadByte(address);
-                SF.Carry = (value & 0b0100_0000) != 0; //overflow goes bit 7 instead of wrap around
+                SF.Carry = (value & 0b1000_0000) != 0; //overflow goes bit 7 instead of wrap around
                 value <<= 1;
                 Set_Negative_and_Zero(value);
                 WriteByte(address, value);
@@ -528,19 +528,93 @@ namespace NesEmu.Core
             SetZero((byte)(value & A));
         }
 
+        /// <summary>
+        /// LSR - Logical Shift Right
+        /// A,C,Z,N = A/2 or M,C,Z,N = M/2
+        /// Each of the bits in A or M is shift one place to the right.The bit that was in bit 0 is shifted into the carry flag.Bit 7 is set to zero.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void LSR(AdressingMode mode, ushort address)
         {
-            return;
+            if (mode == AdressingMode.Accumulator)
+            {
+                SF.Carry = (A & 1) == 1; //overflow goes carry instead of wrap around
+                A >>= 1;
+                Set_Negative_and_Zero(A);
+            }
+            else
+            {
+                byte value = ReadByte(address);
+                SF.Carry = (value & 1) == 1;
+                value >>= 1;
+                Set_Negative_and_Zero(value);
+                WriteByte(address, value);
+            }
         }
 
+        /// <summary>
+        /// ROR - Rotate Right
+        /// Move each of the bits in either A or M one place to the right. Bit 7 is filled with the current value of the carry flag whilst the old bit 0 becomes the new carry flag value.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void ROR(AdressingMode mode, ushort address)
         {
-            return;
+            if (mode == AdressingMode.Accumulator)
+            {
+                bool orignalCarry = SF.Carry;
+
+                SF.Carry = (A & 1) == 1;
+                A >>= 1;
+                A |= (byte)(orignalCarry ? 0x80 : 0);
+
+                Set_Negative_and_Zero(A);
+            }
+            else
+            {
+                bool orignalCarry = SF.Carry;
+                byte value = ReadByte(address);
+
+                SF.Carry = (value & 1) == 1;
+                value >>= 1;
+                value |= (byte)(orignalCarry ? 0x80 : 0);
+
+                WriteByte(address, value);
+                Set_Negative_and_Zero(value);
+            }
         }
 
+        /// <summary>
+        /// ROL - Rotate Left
+        /// Move each of the bits in either A or M one place to the left. Bit 0 is filled with the current value of the carry flag whilst the old bit 7 becomes the new carry flag value.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="address"></param>
         public void ROL(AdressingMode mode, ushort address)
         {
-            return;
+            if (mode == AdressingMode.Accumulator)
+            {
+                bool orignalCarry = SF.Carry;
+
+                SF.Carry = (A & 0b1000_0000) != 0;
+                A <<= 1;
+                A |= (byte)(orignalCarry ? 1 : 0);
+
+                Set_Negative_and_Zero(A);
+            }
+            else
+            {
+                bool orignalCarry = SF.Carry;
+                byte value = ReadByte(address);
+
+                SF.Carry = (value & 0b1000_0000) != 0;
+                value <<= 1;
+                value |= (byte)(orignalCarry ? 1 : 0);
+
+                WriteByte(address, value);
+                Set_Negative_and_Zero(value);
+            }
         }
 
         #endregion
