@@ -55,7 +55,7 @@ namespace NesEmu.Core
 
             //handle nmi interrupt
 
-            int startcycle = _cycle;
+            _ = _cycle;
 
             currentOpCode = ReadByte(PC);
 
@@ -89,14 +89,14 @@ namespace NesEmu.Core
             P = 0x24; //Set flags (Originally P = $34)
             A = X = Y = 0;
             S = 0xFD; //Stack pointer
-            PC = Read16(0xFFFC);
+            //PC = Read16(0xFFFC);
             _cycle = 0;
 
 
 
             //debug
-            //PC = 0xC000;
-            //_cycle = 7;
+            PC = 0xC000;
+            _cycle = 7;
             //C000  4C F5 C5 JMP $C5F5 A:00 X: 00 Y: 00 P: 24 SP: FD PPU:  0,  0 CYC: 7
             //http://www.qmtpro.com/~nes/misc/nestest.log
 
