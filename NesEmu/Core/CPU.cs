@@ -55,8 +55,6 @@ namespace NesEmu.Core
 
             //handle nmi interrupt
 
-            _ = _cycle;
-
             currentOpCode = ReadByte(PC);
 
             AdressingMode currentAddressMode = GetAdressingMode(currentOpCode);
