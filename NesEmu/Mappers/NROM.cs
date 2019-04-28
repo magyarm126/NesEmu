@@ -52,7 +52,8 @@ namespace NesEmu.Mappers
         public override void Write(int address, byte value)
         {
             //todo check for UsesChrRam
-            _cartridge._CHRROM[address] = value;
+            if(address< 0x2000)
+                _cartridge._CHRROM[address] = value;
         }
     }
 }
